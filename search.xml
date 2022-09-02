@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>动态规划理论</title>
+      <link href="/ZaNot.github.io/2021/10/21/dong-tai-gui-hua/"/>
+      <url>/ZaNot.github.io/2021/10/21/dong-tai-gui-hua/</url>
+      
+        <content type="html"><![CDATA[<h4 id="1-什么是动态规划"><a href="#1-什么是动态规划" class="headerlink" title="1. 什么是动态规划"></a>1. 什么是动态规划</h4><p>在现实生活中，有一类活动的过程，由于它的特殊性，可将过程分成若干个互相联系的阶段，在它的每一阶段都需要作出决策，从而使整个过程达到最好的活动效果。因此各个阶段决策的选取不能任意确定，它依赖于当前面临的状态，又影响以后的发展。当各个阶段决策确定后，就组成一个决策序列，因而也就确定了整个过程的一条活动路线。</p><p>这种把一个问题看作是一个前后关联具有链状结构的多阶段过程就称为多阶段决策过程，这种问题称为多阶段决策问题。在多阶段决策问题中，各个阶段采取的决策，一般来说是与时间有关的，决策依赖于当前状态，又随即引起状态的转移，一个决策序列就是在变化的状态中产生出来的，故有“动态”的含义，称这种解决多阶段决策最优化的过程为动态规划方法。</p><h4 id="2-动态规划的思想"><a href="#2-动态规划的思想" class="headerlink" title="2. 动态规划的思想"></a>2. 动态规划的思想</h4><p>动态规划与分治法类似，都是==把大问题拆分成小问题==，通过寻找大问题与小问题的递推关系，解决一个个小问题，最终达到解决原问题的效果。但不同的是，分治法在子问题和子子问题等上被重复计算了很多次，而动态规划则具有记忆性，通过填写表把所有已经解决的子问题答案纪录下来，在==新问题里需要用到的子问题可以直接提取，避免了重复计算==，从而节约了时间，所以在问题满足最优性原理之后，用动态规划解决问题的核心就在于==填表==，表填写完毕，最优解也就找到。</p><p>所谓的最优性原理是指：<br>多阶段决策过程的最优决策序列具有这样的性质：不论初始状态和初始决策如何，对于前面决策所造成的某一状态而言（当前出发点），其后各阶段的决策序列必须构成最优策略。</p><h4 id="3-动态规划的作用"><a href="#3-动态规划的作用" class="headerlink" title="3. 动态规划的作用"></a>3. 动态规划的作用</h4><p>动态规划实质上是一种以空间换时间的技术，它在实现的过程中，不得不存储产生过程中的各种状态，所以它的空间复杂度要大于其他的算法。选择动态规划算法是因为动态规划算法在空间上可以承受，而搜索算法在时间上却无法承受，所以我们舍空间而取时间</p><blockquote><p>Questions<br>动态规划怎么保证每个子问题的决策都是对最优结果的最好的决策呢？<br>动态规划记住的状态一定是最优的吗？</p></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> 算法学习笔记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 算法学习笔记 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>第一篇文章</title>
+      <link href="/ZaNot.github.io/2021/10/21/di-yi-pian-wen-zhang/"/>
+      <url>/ZaNot.github.io/2021/10/21/di-yi-pian-wen-zhang/</url>
+      
+        <content type="html"><![CDATA[<h3 id="第一篇文章"><a href="#第一篇文章" class="headerlink" title="第一篇文章"></a>第一篇文章</h3><p>I Love You</p><p><img src="/ZaNot.github.io/../image/1.png" alt="alt"></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> First </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Hello World</title>
+      <link href="/ZaNot.github.io/2021/10/20/hello-world/"/>
+      <url>/ZaNot.github.io/2021/10/20/hello-world/</url>
+      
+        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo new <span class="token string">"My New Post"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo server<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo generate<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo deploy<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+  
+  
+</search>
