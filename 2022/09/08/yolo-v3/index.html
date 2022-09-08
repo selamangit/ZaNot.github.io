@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <!-- SEO相关 -->
   
-  <link rel="canonical" href="https://selamangit.github.io/ZaNot.github.io/2021/10/21/dong-tai-gui-hua/"/>
+  <link rel="canonical" href="https://selamangit.github.io/ZaNot.github.io/2022/09/08/yolo-v3/"/>
   <!-- 渲染优化 -->
     <meta http-equiv='x-dns-prefetch-control' content='on' />
       <link rel='dns-prefetch' href='https://unpkg.com'>
@@ -31,21 +31,20 @@
 
   <!-- feed -->
   <!-- 页面元数据 -->
-  <title>动态规划理论 - BL's Blog</title>
-  <meta name="keywords" content="算法学习笔记,null">
+  <title>BL's Blog</title>
+  <meta name="keywords" content="null">
   <meta desc name="description" content="BL的个人博客 - LiuBL - BL's Blog">
   
 <meta property="og:type" content="article">
-<meta property="og:title" content="动态规划理论">
-<meta property="og:url" content="https://selamangit.github.io/ZaNot.github.io/2021/10/21/dong-tai-gui-hua/index.html">
+<meta property="og:title" content="BL&#39;s Blog">
+<meta property="og:url" content="https://selamangit.github.io/ZaNot.github.io/2022/09/08/yolo-v3/index.html">
 <meta property="og:site_name" content="BL&#39;s Blog">
-<meta property="og:description" content="1. 什么是动态规划在现实生活中，有一类活动的过程，由于它的特殊性，可将过程分成若干个互相联系的阶段，在它的每一阶段都需要作出决策，从而使整个过程达到最好的活动效果。因此各个阶段决策的选取不能任意确定，它依赖于当前面临的状态，又影响以后的发展。当各个阶段决策确定后，就组成一个决策序列，因而也就确定了整个过程的一条活动路线。 这种把一个问题看作是一个前后关联具有链状结构的多阶段过程就称为多阶段决策过">
+<meta property="og:description" content="YOLO-V3 YOLO-V3是比较完善的一个目标检测的框架，它经过一代一代的发展，一步步地完善，接下来介绍一些YOLO-V3在V2的基础上进行了哪些的改进，下图为我训练出来模型的检测效果   先验框的更新在V2中，先验框是由K-mean聚类算法得出的5种不同尺寸的先验框，在V3中考虑到Darknet-53会输出三种尺寸的预测，因此选取先验框时应该选取的是3的倍数，最终选择了9种先验框，每种尺寸都">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png">
-<meta property="article:published_time" content="2021-10-21T15:01:16.139Z">
-<meta property="article:modified_time" content="2021-10-21T15:07:24.131Z">
+<meta property="article:published_time" content="2022-09-08T13:43:05.569Z">
+<meta property="article:modified_time" content="2022-09-08T13:39:13.038Z">
 <meta property="article:author" content="LiuBL">
-<meta property="article:tag" content="算法学习笔记">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png">
   <style>
@@ -2508,7 +2507,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
           
 <div id="l_main" class=''>
   <article itemscope itemtype="http://schema.org/Article" class="article post white-box reveal md shadow floatable blur article-type-post" id="post" itemscope itemprop="blogPost">
-  <link itemprop="mainEntityOfPage" href="https://selamangit.github.io/ZaNot.github.io/2021/10/21/dong-tai-gui-hua/">
+  <link itemprop="mainEntityOfPage" href="https://selamangit.github.io/ZaNot.github.io/2022/09/08/yolo-v3/">
   <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
     <meta itemprop="name" content="BL's Blog">
   </span>
@@ -2528,72 +2527,53 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     
     
     
-      <h1 class="title" itemprop="name headline">
-        动态规划理论
-      </h1>
-      <div class='new-meta-box'>
+      <span hidden itemprop="name headline">
         
-          
-            
-<div class='new-meta-item author' itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <a itemprop="url" class='author' href="/" rel="nofollow">
-    <img itemprop="image" src="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/apple-touch-icon.png" class="lazyload" data-srcset="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/apple-touch-icon.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
-    <p itemprop="name">请设置文章作者</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  <div class='new-meta-item category'>
-    <i class="fa-solid fa-folder-open fa-fw" aria-hidden="true"></i>
-    <a class="category-link" href="/ZaNot.github.io/categories/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">算法学习笔记</a>
-    
-      <span hidden itemprop="about" itemscope itemtype="http://schema.org/Thing">
-        <a href="/ZaNot.github.io/categories/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url"><span itemprop="name">算法学习笔记</span></a>
       </span>
-    
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date" itemprop="dateCreated datePublished" datetime="2021-10-21T23:01:16+08:00">
-  <a class='notlink'>
-    <i class="fa-solid fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2021年10月21日</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-
-
-
-          
-        
-        <!-- Custom Files topMeta begin-->
-        
-        <!-- Custom Files topMeta end-->
-      </div>
     
   </div>
 
 
   <div id="layoutHelper-page-plugins"></div>
   <div id="post-body" itemprop="articleBody">
-    <h4 id="1-什么是动态规划"><a href="#1-什么是动态规划" class="headerlink" title="1. 什么是动态规划"></a>1. 什么是动态规划</h4><p>在现实生活中，有一类活动的过程，由于它的特殊性，可将过程分成若干个互相联系的阶段，在它的每一阶段都需要作出决策，从而使整个过程达到最好的活动效果。因此各个阶段决策的选取不能任意确定，它依赖于当前面临的状态，又影响以后的发展。当各个阶段决策确定后，就组成一个决策序列，因而也就确定了整个过程的一条活动路线。</p>
-<p>这种把一个问题看作是一个前后关联具有链状结构的多阶段过程就称为多阶段决策过程，这种问题称为多阶段决策问题。在多阶段决策问题中，各个阶段采取的决策，一般来说是与时间有关的，决策依赖于当前状态，又随即引起状态的转移，一个决策序列就是在变化的状态中产生出来的，故有“动态”的含义，称这种解决多阶段决策最优化的过程为动态规划方法。</p>
-<h4 id="2-动态规划的思想"><a href="#2-动态规划的思想" class="headerlink" title="2. 动态规划的思想"></a>2. 动态规划的思想</h4><p>动态规划与分治法类似，都是==把大问题拆分成小问题==，通过寻找大问题与小问题的递推关系，解决一个个小问题，最终达到解决原问题的效果。但不同的是，分治法在子问题和子子问题等上被重复计算了很多次，而动态规划则具有记忆性，通过填写表把所有已经解决的子问题答案纪录下来，在==新问题里需要用到的子问题可以直接提取，避免了重复计算==，从而节约了时间，所以在问题满足最优性原理之后，用动态规划解决问题的核心就在于==填表==，表填写完毕，最优解也就找到。</p>
-<p>所谓的最优性原理是指：<br>多阶段决策过程的最优决策序列具有这样的性质：不论初始状态和初始决策如何，对于前面决策所造成的某一状态而言（当前出发点），其后各阶段的决策序列必须构成最优策略。</p>
-<h4 id="3-动态规划的作用"><a href="#3-动态规划的作用" class="headerlink" title="3. 动态规划的作用"></a>3. 动态规划的作用</h4><p>动态规划实质上是一种以空间换时间的技术，它在实现的过程中，不得不存储产生过程中的各种状态，所以它的空间复杂度要大于其他的算法。选择动态规划算法是因为动态规划算法在空间上可以承受，而搜索算法在时间上却无法承受，所以我们舍空间而取时间</p>
+    <h2 id="YOLO-V3"><a href="#YOLO-V3" class="headerlink" title="YOLO-V3"></a>YOLO-V3</h2><ul>
+<li>YOLO-V3是比较完善的一个目标检测的框架，它经过一代一代的发展，一步步地完善，接下来介绍一些YOLO-V3在V2的基础上进行了哪些的改进，下图为我训练出来模型的检测效果<div align="center">
+</div></li>
+</ul>
+<h4 id="先验框的更新"><a href="#先验框的更新" class="headerlink" title="先验框的更新"></a>先验框的更新</h4><p>在V2中，先验框是由K-mean聚类算法得出的5种不同尺寸的先验框，在V3中考虑到Darknet-53会输出三种尺寸的预测，因此选取先验框时应该选取的是3的倍数，最终选择了9种先验框，每种尺寸都有三种不同形状的先验框。</p>
+<p>先验框的选择仍然是通过K-mean聚类出9种，这9种聚类得出的先验框之间不是没有关系的，其中每种尺寸的特征图都有其专属的三种基本相同大小的先验框用来预测，例如：13×13尺寸的特征图中会有三种较大的先验框用来预测，26×26的特征图会有较中等的三种先验框用来预测，52×52的特征图则会有三种较小的先验框用来预测</p>
+<p>K-mean聚类的距离度量方法仍然是利用IOU来计算，这些先验框都是根据groundtruth的数据聚类出来的</p>
+<h4 id="正负样本分配"><a href="#正负样本分配" class="headerlink" title="正负样本分配"></a>正负样本分配</h4><p>在前面的学习，我们已经知道除了要计算有物体的网格的损失，还要计算不含物体的网格的损失，因此就有了正负样本的说法</p>
+<p>根据上面聚类出来的9种先验框，计算出三个尺寸所对应的三个先验框与groundtruth的IOU，具体做法为：每个尺寸用对应的三种大小的先验框去与这个尺寸的groundtruth计算IOU，如果计算出来的先验框的IOU值存在大于阈值，就标记这个先验框为这个尺寸下的正样本，并设该尺寸下IOU大于阈值的先验框的置信度为1；如果计算出来的IOU都不大于阈值，那就选取计算出来IOU最大的先验框作为正样本</p>
+<p>以上的两种方法就是筛选正样本的方法，如果不满足这两种方法，剩下的先验框就标记为负样本。标记正负样本只会参与到置信度损失的计算中，不会参与到预测类别以及bbox位置预测的损失计算中</p>
+<p>正负样本分配也需要遵循一些准则，那就是尽量使得正样本数和负样本数基本相等，这是为了让模型在预测时不会出现大量漏检的现象，按照我的理解就是：先验框计算出来的IOU只要大于阈值，就说明这个先验框是能检测到物体的，正样本数越多就说明这个区域内存在物体的概率更大，也就不至于出现大量漏检的现象</p>
+<h4 id="网络结构上的改进"><a href="#网络结构上的改进" class="headerlink" title="网络结构上的改进"></a>网络结构上的改进</h4><p>首先来看看它的主体网络：<strong>Darknet-53</strong>的结构图</p>
+<div align="center">
+<img src="https://raw.githubusercontent.com/selamangit/GithubPic/main/20220908213903872.png" class="lazyload" data-srcset="https://raw.githubusercontent.com/selamangit/GithubPic/main/20220908213903872.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+</div>
+
+<p>网络结构的改变是YOLO-V3中比较大改进的地方</p>
+<p>在YOLO-V2中使用的主体网络结构为： <strong>Darknet-19</strong>，在Darknet-19中使用卷积层来提取特征图，通过池化层来获取降低了特征维度后的特征图（具体结构请去看YOLO-V2），在经过Darknet-19全部提取完特征图之后，再将上一层池化之前的结果经过<strong>reorg</strong>之后再合并到一起，来实现特征融合，将感受野较小的特征图融合到感受野较大的特征图上面，可以使得较少的目标不至于丢失</p>
+<p>在YOLO-V3中的<strong>Darknet-53</strong>不同于V2中的网络，它除了使用卷积层来提取特征图之外，还使用了卷积层来降低特征图的维度，而不是池化层。仔细想想确实可以用卷积层来代替池化层来实现特征的降维，而且这个网络的主要成分还是残差块$\left(\text{resn}\right)$，残差块是由一层特征降维的卷积层和 $\text{2n}$ 个提取特征图的卷积层组成，但是在每 $\text{2}$ 个提取特征图的卷积层之后，都要将输出的 $\text{conv}$ 和输入的 $\text{conv}$ 相加</p>
+<div align="center">
+<img src="https://raw.githubusercontent.com/selamangit/GithubPic/main/20220908213910272.png" class="lazyload" data-srcset="https://raw.githubusercontent.com/selamangit/GithubPic/main/20220908213910272.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+</div>
+
+<p>在Darknet-53的卷积降维中会提取出大小不同的特征图，以输入图片大小为416×416为例，网络会将其降维为13×13、26×26、52×52等尺寸。若是像V2的做法，会将尺寸较大的特征图拆分之后融入尺寸较大的特征图中去，但想想V2的做法真的合适吗？将检测小物体（感受野较小）的特征图融合到检测大物体（感受野较大）的特征图中去，可能会将本来检测大物体的功能减弱或者检测小物体的功能减弱</p>
+<p>那么V3中是怎么做的呢？它将最后提取出来的三种不同尺寸的特征图进行处理，将尺寸小的特征图进行<strong>上采样</strong>，还原到上一层的尺寸大小，然后将该特征图拼接到上一层的特征图中去，例如：将13×13的特征图经过上采样变为26×26大小的特征图，然后拼接到26×26尺寸的特征图中去。</p>
 <blockquote>
-<p>Questions<br>动态规划怎么保证每个子问题的决策都是对最优结果的最好的决策呢？<br>动态规划记住的状态一定是最优的吗？</p>
+<p>我的理解是：在Darknet-53中通过残差块提取的特征图中已包含了前面的信息，小物体的信息也提取出来了，经过参数的优化小物体的检测会得到一定效果，此时应该向感受野大的特征图获取一些全局信息（<strong>个人理解仍待考证</strong>）</p>
 </blockquote>
+<h4 id="decode解码"><a href="#decode解码" class="headerlink" title="decode解码"></a>decode解码</h4><p>由于网络输出的预测值的范围是0~1之间，也就是说每一个网格输出的bbox的位置预测都是都被限制在这个网格内，这正是YOLO的划分，每个网格都来预测是否有物体中心点。而decode就是用来将特征预测值都还原到相应尺寸下的尺寸，具体做法就是：将坐标预测值（0 ~ 1之间）与网格左上角的坐标相加获得该bbox在相应尺寸下的坐标，以及将预测的宽高乘上相应的尺寸，从而获得bbox的宽高，这样就可以计算出bbox与groundtruth的IOU，那么bbox的置信度就得出来了，就可以预测此处是否存在物体了</p>
+<h4 id="处理解码后的bbox"><a href="#处理解码后的bbox" class="headerlink" title="处理解码后的bbox"></a>处理解码后的bbox</h4><p>网络输出的预测值经过解码之后，会获取所有尺寸下的网格所输出三个预测框bbox的信息，这些预测出来的bbox有可能存在左上角的坐标比右下角坐标大的情况，或者bbox不存在的情况，在检测目标时需要将这些预测出来的bbox信息去除先，保留下那些bbox信息存在且不异常的</p>
+<h4 id="NMS筛选bbox（在预测阶段）"><a href="#NMS筛选bbox（在预测阶段）" class="headerlink" title="NMS筛选bbox（在预测阶段）"></a>NMS筛选bbox（在预测阶段）</h4><p>NMS（Non-Maximum Suppression）抑制不是极大值的元素，说白了就是去除哪些重叠率较高并且score评分较低的bbox</p>
+<p>处理了解码后的bbox，会保留下一些bbox的信息，但是不是每个bbox都去负责呢？仔细想想每个网格（对应尺寸下）会输出三个bbox，假如处理后的bbox信息都被保留下来了，那么一个物体就会有三个预测框去框住它，这样的展示效果就不太好了。</p>
+<p>对于一个网格内的bbox，需要的是保存下那个能最好地检测出物体的那个bbox，就要用到NMS方法了<br>方法就是：</p>
+<ol>
+<li>首先判断边界框的数目是否大于0，如果不是大于0，说明没有bbox的信息被保留下来，就去检测下一个网格，直到所有尺寸下的网格都被检测完</li>
+<li>在保留bbox时，会给每个bbox一个评分，对于一个网格内的bbox，根据评分，为这些bbox排序，（不放回的取）取出评分最大的那个bbox</li>
+<li>把这个评分最高的bbox与同一网格下的其他bbox计算IOU，这是为了判断评分最大的bbox与同一网格下的其他bbox的重叠率，去除那些重叠率过高的，取到剩下的bbox为0为止<h4 id="GIOU（广义IOU）"><a href="#GIOU（广义IOU）" class="headerlink" title="GIOU（广义IOU）"></a>GIOU（广义IOU）</h4>这是一种优化边界框的方法，GIOU是衡量bbox与实际框之间对齐和重叠情况的一个指标<br>IOU计算公式：<br>$$ \text{IOU }= \left|\frac{A \cap B}{A\cup B}\right|$$<br>GIOU的计算公式：<br>$$\text{GIOU }= \left| \frac{C/(A\cup B)}{C} \right|$$</li>
+</ol>
 
   </div>
   
@@ -2618,10 +2598,10 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateModified" datetime="2021-10-21T23:07:24+08:00">
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2022-09-08T21:39:13+08:00">
   <a class='notlink'>
     <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2021年10月21日</p>
+    <p>更新于：2022年9月8日</p>
   </a>
 </div>
 
@@ -2629,10 +2609,6 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         
           
-  
-  <div class="new-meta-item meta-tags"><a class="tag" href="/ZaNot.github.io/tags/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="nofollow"><i class="fa-solid fa-hashtag fa-fw" aria-hidden="true"></i><p>算法学习笔记</p></a></div>
-  <span hidden itemprop="keywords">算法学习笔记</span>
-
 
         
       
@@ -2644,7 +2620,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://selamangit.github.io/ZaNot.github.io/2021/10/21/dong-tai-gui-hua/&title=动态规划理论 - BL's Blog&summary="
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://selamangit.github.io/ZaNot.github.io/2022/09/08/yolo-v3/&title= - BL's Blog&summary="
           
           >
           
@@ -2656,7 +2632,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://selamangit.github.io/ZaNot.github.io/2021/10/21/dong-tai-gui-hua/&title=动态规划理论 - BL's Blog&summary="
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://selamangit.github.io/ZaNot.github.io/2022/09/08/yolo-v3/&title= - BL's Blog&summary="
           
           >
           
@@ -2668,7 +2644,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=https://selamangit.github.io/ZaNot.github.io/2021/10/21/dong-tai-gui-hua/&title=动态规划理论 - BL's Blog&summary="
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://selamangit.github.io/ZaNot.github.io/2022/09/08/yolo-v3/&title= - BL's Blog&summary="
           
           >
           
@@ -2701,21 +2677,10 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
     <div class="prev-next">
       
-        <a class='prev' href='/ZaNot.github.io/2022/09/08/yolo-v3/'>
-          <p class='title'><i class="fa-solid fa-chevron-left" aria-hidden="true"></i>2021年10月21日</p>
-          <p class='content'>YOLO-V3
-YOLO-V3是比较完善的一个目标检测的框架，它经过一代一代的发展，一步步地完善，接下来介绍一些YOLO-V3在V2的基础上进行了哪些的改进，下图为我训练出来模型的检测效果
-
-
-...</p>
-        </a>
       
-      
-        <a class='next' href='/ZaNot.github.io/2021/10/21/di-yi-pian-wen-zhang/'>
-          <p class='title'>第一篇文章<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>第一篇文章I Love You
-
-</p>
+        <a class='next' href='/ZaNot.github.io/2021/10/21/dong-tai-gui-hua/'>
+          <p class='title'>动态规划理论<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>1. 什么是动态规划在现实生活中，有一类活动的过程，由于它的特殊性，可将过程分成若干个互相联系的阶段，在它的每一阶段都需要作出决策，从而使整个过程达到最好的活动效果。因此各个阶段决策的选取不能任...</p>
         </a>
       
     </div>
@@ -2731,7 +2696,7 @@ YOLO-V3是比较完善的一个目标检测的框架，它经过一代一代的�
 
   <article class="post white-box shadow floatable blur" id="comments">
     <span hidden>
-      <meta itemprop="discussionUrl" content="/ZaNot.github.io/2021/10/21/dong-tai-gui-hua/index.html#comments">
+      <meta itemprop="discussionUrl" content="/ZaNot.github.io/2022/09/08/yolo-v3/index.html#comments">
     </span>
     <p ct><i class='fa-solid fa-comments'></i> 评论</p>
     
@@ -2773,7 +2738,7 @@ YOLO-V3是比较完善的一个目标检测的框架，它经过一代一代的�
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92"><span class="toc-text">1. 什么是动态规划</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E7%9A%84%E6%80%9D%E6%83%B3"><span class="toc-text">2. 动态规划的思想</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-text">3. 动态规划的作用</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#YOLO-V3"><span class="toc-text">YOLO-V3</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%88%E9%AA%8C%E6%A1%86%E7%9A%84%E6%9B%B4%E6%96%B0"><span class="toc-text">先验框的更新</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AD%A3%E8%B4%9F%E6%A0%B7%E6%9C%AC%E5%88%86%E9%85%8D"><span class="toc-text">正负样本分配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84%E4%B8%8A%E7%9A%84%E6%94%B9%E8%BF%9B"><span class="toc-text">网络结构上的改进</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#decode%E8%A7%A3%E7%A0%81"><span class="toc-text">decode解码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%84%E7%90%86%E8%A7%A3%E7%A0%81%E5%90%8E%E7%9A%84bbox"><span class="toc-text">处理解码后的bbox</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NMS%E7%AD%9B%E9%80%89bbox%EF%BC%88%E5%9C%A8%E9%A2%84%E6%B5%8B%E9%98%B6%E6%AE%B5%EF%BC%89"><span class="toc-text">NMS筛选bbox（在预测阶段）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#GIOU%EF%BC%88%E5%B9%BF%E4%B9%89IOU%EF%BC%89"><span class="toc-text">GIOU（广义IOU）</span></a></li></ol></li></ol></li></ol>
     </div>
   </section>
 
@@ -2829,7 +2794,7 @@ YOLO-V3是比较完善的一个目标检测的框架，它经过一代一代的�
 <pjax>
 <script>
   window.pdata={}
-  pdata.ispage=true;
+  pdata.ispage=false;
   pdata.commentPath="";
   pdata.commentPlaceholder="";
   pdata.commentConfig={};
@@ -3343,7 +3308,7 @@ YOLO-V3是比较完善的一个目标检测的框架，它经过一代一代的�
 </script>
 
 
-  <script type="application/ld+json">[{"@context":"http://schema.org","@type":"Organization","name":"BL's Blog","url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"http://schema.org","@type":"Person","name":"LiuBL","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","sameAs":["https://github.com/volantis-x"],"description":"BL的个人博客"},{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","name":"BL's Blog"}},{"@type":"ListItem","position":2,"item":{"@id":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/categories/算法学习笔记/","name":"算法学习笔记"}},{"@type":"ListItem","position":3,"item":{"@id":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/2021/10/21/dong-tai-gui-hua/","name":"动态规划理论"}}]},{"@context":"http://schema.org","@type":"WebSite","name":"BL's Blog","url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","keywords":null,"description":"BL的个人博客","author":{"@type":"Person","name":"LiuBL","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","description":"BL的个人博客"},"publisher":{"@type":"Organization","name":"BL's Blog","url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://selamangit.github.io/ZaNot.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"http://schema.org","@type":"BlogPosting","headline":"动态规划理论","description":"BL的个人博客","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://selamangit.github.io/ZaNot.github.io/2021/10/21/dong-tai-gui-hua/"},"author":{"@type":"Person","name":"LiuBL","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/"},"publisher":{"@type":"Organization","name":"BL's Blog","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://selamangit.github.io/ZaNot.github.io/2021/10/21/dong-tai-gui-hua/","wordCount":0,"datePublished":"2021-10-21T15:01:16.139Z","dateModified":"2021-10-21T15:07:24.131Z","articleSection":"算法学习笔记","keywords":"算法学习笔记","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+  <script type="application/ld+json">[{"@context":"http://schema.org","@type":"Organization","name":"BL's Blog","url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"http://schema.org","@type":"Person","name":"LiuBL","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","sameAs":["https://github.com/volantis-x"],"description":"BL的个人博客"},{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","name":"BL's Blog"}},{"@type":"ListItem","position":3,"item":{"@id":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/2022/09/08/yolo-v3/"}}]},{"@context":"http://schema.org","@type":"WebSite","name":"BL's Blog","url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","keywords":null,"description":"BL的个人博客","author":{"@type":"Person","name":"LiuBL","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","description":"BL的个人博客"},"publisher":{"@type":"Organization","name":"BL's Blog","url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://selamangit.github.io/ZaNot.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"http://schema.org","@type":"BlogPosting","description":"BL的个人博客","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://selamangit.github.io/ZaNot.github.io/2022/09/08/yolo-v3/"},"author":{"@type":"Person","name":"LiuBL","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/"},"publisher":{"@type":"Organization","name":"BL's Blog","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://selamangit.github.io/ZaNot.github.io/2022/09/08/yolo-v3/","wordCount":0,"datePublished":"2022-09-08T13:43:05.569Z","dateModified":"2022-09-08T13:39:13.038Z","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
 
 
 
