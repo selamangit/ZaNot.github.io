@@ -1,0 +1,4187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head hexo-theme='https://github.com/volantis-x/hexo-theme-volantis/#5.7.6'>
+  <meta name="generator" content="Hexo 5.4.0">
+  <meta name="Volantis" content="5.7.6">
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+  <link rel="canonical" href="https://selamangit.github.io/ZaNot.github.io/2022/09/09/himpp-kai-fa-sdk-xi-tong-kong-zhi/"/>
+  <!-- 渲染优化 -->
+    <meta http-equiv='x-dns-prefetch-control' content='on' />
+      <link rel='dns-prefetch' href='https://unpkg.com'>
+      <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Content-Security-Policy" content=" default-src 'self' https:; block-all-mixed-content; base-uri 'self' https:; form-action 'self' https:; worker-src 'self' https:; connect-src 'self' https: *; img-src 'self' data: https: *; media-src 'self' https: *; font-src 'self' data: https: *; frame-src 'self' https: *; manifest-src 'self' https: *; child-src https:; script-src 'self' https: 'unsafe-inline' *; style-src 'self' https: 'unsafe-inline' *; ">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <!-- import head_begin begin -->
+  <!-- import head_begin end -->
+  <!-- Custom Files headBegin begin-->
+  
+  <!-- Custom Files headBegin end-->
+  <link rel="preload" href="/ZaNot.github.io/css/style.css" as="style">
+  <link rel="preload" href="https://unpkg.com/volantis-static@0.0.1654736714924/media/fonts/VarelaRound/VarelaRound-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+<link rel="preload" href="https://unpkg.com/volantis-static@0.0.1654736714924/media/fonts/UbuntuMono/UbuntuMono-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <!-- feed -->
+  <!-- 页面元数据 -->
+  <title>HIMPP开发SDK-系统控制 - BL's Blog</title>
+  <meta name="keywords" content="null">
+  <meta desc name="description" content="BL的个人博客 - LiuBL - BL's Blog">
+  
+<meta property="og:type" content="article">
+<meta property="og:title" content="HIMPP开发SDK-系统控制">
+<meta property="og:url" content="https://selamangit.github.io/ZaNot.github.io/2022/09/09/himpp-kai-fa-sdk-xi-tong-kong-zhi/index.html">
+<meta property="og:site_name" content="BL&#39;s Blog">
+<meta property="og:description" content="HiMPP——系统控制 这部分的开发文档介绍的是使用海思的HI_MPI_SYS_xxxxx的API接口来实现对硬件也就是开发板中的各个部件的复位、基本初始化工作，同时还包括了对MPP（媒体处理子系统）中的各个业务模块进行初始化、出初始化还有管理MPP各个业务模块的工作状态，并且提供了当前MPP系统的版本信息、提供大块物理内存管理等功能  在我看来，这个部分就像一个流程管理，管理了程序的整个生命周期">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png">
+<meta property="article:published_time" content="2022-09-09T07:13:36.451Z">
+<meta property="article:modified_time" content="2022-09-09T07:13:36.453Z">
+<meta property="article:author" content="LiuBL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png">
+  <style>
+    /* 首屏样式 */
+    #safearea {
+  display: none;
+}
+:root {
+  --color-site-body: #f4f4f4;
+  --color-site-bg: #f4f4f4;
+  --color-site-inner: #fff;
+  --color-site-footer: #666;
+  --color-card: #fff;
+  --color-text: #444;
+  --color-block: #f6f6f6;
+  --color-inlinecode: #c74f00;
+  --color-codeblock: #fff7ea;
+  --color-h1: #3a3a3a;
+  --color-h2: #3a3a3a;
+  --color-h3: #333;
+  --color-h4: #444;
+  --color-h5: #555;
+  --color-h6: #666;
+  --color-p: #444;
+  --color-list: #666;
+  --color-list-hl: #30ad91;
+  --color-meta: #888;
+  --color-read-bkg: #e0d8c8;
+  --color-read-post: #f8f1e2;
+  --color-copyright-bkg: #f5f5f5;
+}
+* {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  margin: 0;
+  padding: 0;
+}
+*::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+*::-webkit-scrollbar-track-piece {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: #3dd9b6;
+  cursor: pointer;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: #ff5722;
+}
+html {
+  color: var(--color-text);
+  width: 100%;
+  height: 100%;
+  font-family: UbuntuMono, "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Menlo, Monaco, monospace, sans-serif;
+  font-size: 16px;
+}
+html >::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+html >::-webkit-scrollbar-track-piece {
+  background: transparent;
+}
+html >::-webkit-scrollbar-thumb {
+  background: #3dd9b6;
+  cursor: pointer;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+}
+html >::-webkit-scrollbar-thumb:hover {
+  background: #ff5722;
+}
+body {
+  background-color: var(--color-site-body);
+  text-rendering: optimizelegibility;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+body.modal-active {
+  overflow: hidden;
+}
+@media screen and (max-width: 680px) {
+  body.modal-active {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+}
+a {
+  color: #2092ec;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+a:hover {
+  color: #ff5722;
+}
+a:active,
+a:hover {
+  outline: 0;
+}
+ul,
+ol {
+  padding-left: 0;
+}
+ul li,
+ol li {
+  list-style: none;
+}
+header {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+}
+img {
+  border: 0;
+  background: none;
+  max-width: 100%;
+}
+svg:not(:root) {
+  overflow: hidden;
+}
+hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  height: 0;
+  border: 0;
+  border-radius: 1px;
+  -webkit-border-radius: 1px;
+  border-bottom: 1px solid rgba(68,68,68,0.1);
+}
+button,
+input {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+button {
+  overflow: visible;
+  text-transform: none;
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+@supports (backdrop-filter: blur(20px)) {
+  .blur {
+    background: rgba(255,255,255,0.9) !important;
+    backdrop-filter: saturate(200%) blur(20px);
+  }
+}
+.shadow {
+  box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
+  -webkit-box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
+}
+.shadow.floatable {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+.shadow.floatable:hover {
+  box-shadow: 0 2px 4px 0px rgba(0,0,0,0.1), 0 4px 8px 0px rgba(0,0,0,0.1), 0 8px 16px 0px rgba(0,0,0,0.1);
+  -webkit-box-shadow: 0 2px 4px 0px rgba(0,0,0,0.1), 0 4px 8px 0px rgba(0,0,0,0.1), 0 8px 16px 0px rgba(0,0,0,0.1);
+}
+#l_cover {
+  min-height: 64px;
+}
+.cover-wrapper {
+  top: 0;
+  left: 0;
+  max-width: 100%;
+  height: 100vh;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  flex-wrap: nowrap;
+  -webkit-flex-wrap: nowrap;
+  -khtml-flex-wrap: nowrap;
+  -moz-flex-wrap: nowrap;
+  -o-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  align-items: center;
+  align-self: center;
+  align-content: center;
+  color: var(--color-site-inner);
+  padding: 0 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: -100px;
+}
+.cover-wrapper .cover-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+}
+.cover-wrapper .cover-bg.lazyload:not(.loaded) {
+  opacity: 0;
+  -webkit-opacity: 0;
+  -moz-opacity: 0;
+}
+.cover-wrapper .cover-bg.lazyload.loaded {
+  animation-delay: 0s;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-out;
+  animation-name: fadeIn;
+}
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    filter: blur(12px);
+    transform: scale(1.02);
+    -webkit-transform: scale(1.02);
+    -khtml-transform: scale(1.02);
+    -moz-transform: scale(1.02);
+    -o-transform: scale(1.02);
+    -ms-transform: scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    filter: blur(12px);
+    transform: scale(1.02);
+    -webkit-transform: scale(1.02);
+    -khtml-transform: scale(1.02);
+    -moz-transform: scale(1.02);
+    -o-transform: scale(1.02);
+    -ms-transform: scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    filter: blur(12px);
+    transform: scale(1.02);
+    -webkit-transform: scale(1.02);
+    -khtml-transform: scale(1.02);
+    -moz-transform: scale(1.02);
+    -o-transform: scale(1.02);
+    -ms-transform: scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    filter: blur(12px);
+    transform: scale(1.02);
+    -webkit-transform: scale(1.02);
+    -khtml-transform: scale(1.02);
+    -moz-transform: scale(1.02);
+    -o-transform: scale(1.02);
+    -ms-transform: scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+.cover-wrapper .cover-body {
+  z-index: 1;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.cover-wrapper#full {
+  height: calc(100vh + 100px);
+  padding-bottom: 100px;
+}
+.cover-wrapper#half {
+  max-height: 640px;
+  min-height: 400px;
+  height: calc(36vh - 64px + 200px);
+}
+.cover-wrapper #scroll-down {
+  width: 100%;
+  height: 64px;
+  position: absolute;
+  bottom: 100px;
+  text-align: center;
+  cursor: pointer;
+}
+.cover-wrapper #scroll-down .scroll-down-effects {
+  color: #fff;
+  font-size: 24px;
+  line-height: 64px;
+  position: absolute;
+  width: 24px;
+  left: calc(50% - 12px);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  animation: scroll-down-effect 1.5s infinite;
+  -webkit-animation: scroll-down-effect 1.5s infinite;
+  -khtml-animation: scroll-down-effect 1.5s infinite;
+  -moz-animation: scroll-down-effect 1.5s infinite;
+  -o-animation: scroll-down-effect 1.5s infinite;
+  -ms-animation: scroll-down-effect 1.5s infinite;
+}
+@-moz-keyframes scroll-down-effect {
+  0% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+  50% {
+    top: -16px;
+    opacity: 0.4;
+    -webkit-opacity: 0.4;
+    -moz-opacity: 0.4;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@-webkit-keyframes scroll-down-effect {
+  0% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+  50% {
+    top: -16px;
+    opacity: 0.4;
+    -webkit-opacity: 0.4;
+    -moz-opacity: 0.4;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@-o-keyframes scroll-down-effect {
+  0% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+  50% {
+    top: -16px;
+    opacity: 0.4;
+    -webkit-opacity: 0.4;
+    -moz-opacity: 0.4;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@keyframes scroll-down-effect {
+  0% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+  50% {
+    top: -16px;
+    opacity: 0.4;
+    -webkit-opacity: 0.4;
+    -moz-opacity: 0.4;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+.cover-wrapper .cover-body {
+  margin-top: 64px;
+  margin-bottom: 100px;
+}
+.cover-wrapper .cover-body,
+.cover-wrapper .cover-body .top,
+.cover-wrapper .cover-body .bottom {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  -webkit-justify-content: center;
+  -khtml-justify-content: center;
+  -moz-justify-content: center;
+  -o-justify-content: center;
+  -ms-justify-content: center;
+  max-width: 100%;
+}
+.cover-wrapper .cover-body .bottom {
+  margin-top: 32px;
+}
+.cover-wrapper .cover-body .title {
+  font-family: "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Helvetica, monospace;
+  font-size: 3.125rem;
+  line-height: 1.2;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.cover-wrapper .cover-body .subtitle {
+  font-size: 20px;
+}
+.cover-wrapper .cover-body .logo {
+  max-height: 120px;
+  max-width: calc(100% - 4 * 16px);
+}
+@media screen and (min-height: 1024px) {
+  .cover-wrapper .cover-body .title {
+    font-size: 3rem;
+  }
+  .cover-wrapper .cover-body .subtitle {
+    font-size: 1.05rem;
+  }
+  .cover-wrapper .cover-body .logo {
+    max-height: 150px;
+  }
+}
+.cover-wrapper .cover-body .m_search {
+  position: relative;
+  max-width: calc(100% - 16px);
+  width: 320px;
+  vertical-align: middle;
+}
+.cover-wrapper .cover-body .m_search .form {
+  position: relative;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  width: 100%;
+}
+.cover-wrapper .cover-body .m_search .icon,
+.cover-wrapper .cover-body .m_search .input {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+.cover-wrapper .cover-body .m_search .icon {
+  position: absolute;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  line-height: 2.5rem;
+  width: 32px;
+  top: 0;
+  left: 5px;
+  color: rgba(68,68,68,0.75);
+}
+.cover-wrapper .cover-body .m_search .input {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  height: 2.5rem;
+  width: 100%;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  font-size: 0.875rem;
+  -webkit-appearance: none;
+  padding-left: 36px;
+  border-radius: 1.4rem;
+  -webkit-border-radius: 1.4rem;
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(10px);
+  border: none;
+  color: var(--color-text);
+}
+@media screen and (max-width: 500px) {
+  .cover-wrapper .cover-body .m_search .input {
+    padding-left: 36px;
+  }
+}
+.cover-wrapper .cover-body .m_search .input:hover {
+  background: rgba(255,255,255,0.8);
+}
+.cover-wrapper .cover-body .m_search .input:focus {
+  background: #fff;
+}
+.cover-wrapper .list-h {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -khtml-flex-wrap: wrap;
+  -moz-flex-wrap: wrap;
+  -o-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  align-items: stretch;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.cover-wrapper .list-h a {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1 0;
+  -ms-flex: 1 0;
+  flex: 1 0;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  font-weight: 600;
+}
+.cover-wrapper .list-h a img {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  margin: 4px;
+  min-width: 40px;
+  max-width: 44px;
+}
+@media screen and (max-width: 768px) {
+  .cover-wrapper .list-h a img {
+    min-width: 36px;
+    max-width: 40px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .cover-wrapper .list-h a img {
+    margin: 2px 4px;
+    min-width: 32px;
+    max-width: 36px;
+  }
+}
+@media screen and (max-width: 375px) {
+  .cover-wrapper .list-h a img {
+    min-width: 28px;
+    max-width: 32px;
+  }
+}
+.cover-wrapper {
+  max-width: 100%;
+}
+.cover-wrapper.search .bottom .menu {
+  margin-top: 16px;
+}
+.cover-wrapper.search .bottom .menu .list-h a {
+  white-space: nowrap;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  align-items: baseline;
+  padding: 2px;
+  margin: 4px;
+  color: var(--color-site-inner);
+  opacity: 0.75;
+  -webkit-opacity: 0.75;
+  -moz-opacity: 0.75;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  border-bottom: 2px solid transparent;
+}
+.cover-wrapper.search .bottom .menu .list-h a i {
+  margin-right: 4px;
+}
+.cover-wrapper.search .bottom .menu .list-h a p {
+  font-size: 0.9375rem;
+}
+.cover-wrapper.search .bottom .menu .list-h a:hover,
+.cover-wrapper.search .bottom .menu .list-h a.active,
+.cover-wrapper.search .bottom .menu .list-h a:active {
+  opacity: 1;
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+  border-bottom: 2px solid var(--color-site-inner);
+}
+.cover-wrapper.dock .menu,
+.cover-wrapper.featured .menu,
+.cover-wrapper.focus .menu {
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+}
+.cover-wrapper.dock .menu .list-h a,
+.cover-wrapper.featured .menu .list-h a,
+.cover-wrapper.focus .menu .list-h a {
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px;
+  line-height: 24px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-bottom: none;
+  text-align: center;
+  align-content: flex-end;
+  color: rgba(68,68,68,0.7);
+  font-size: 1.5rem;
+}
+@media screen and (max-width: 500px) {
+  .cover-wrapper.dock .menu .list-h a,
+  .cover-wrapper.featured .menu .list-h a,
+  .cover-wrapper.focus .menu .list-h a {
+    padding: 12px 8px;
+  }
+}
+.cover-wrapper.dock .menu .list-h a i,
+.cover-wrapper.featured .menu .list-h a i,
+.cover-wrapper.focus .menu .list-h a i {
+  margin: 8px;
+}
+.cover-wrapper.dock .menu .list-h a p,
+.cover-wrapper.featured .menu .list-h a p,
+.cover-wrapper.focus .menu .list-h a p {
+  font-size: 0.875rem;
+}
+.cover-wrapper.dock .menu .list-h a.active,
+.cover-wrapper.featured .menu .list-h a.active,
+.cover-wrapper.focus .menu .list-h a.active {
+  background: var(--color-card);
+  backdrop-filter: none;
+}
+.cover-wrapper.dock .menu .list-h a.active i,
+.cover-wrapper.featured .menu .list-h a.active i,
+.cover-wrapper.focus .menu .list-h a.active i,
+.cover-wrapper.dock .menu .list-h a.active i+p,
+.cover-wrapper.featured .menu .list-h a.active i+p,
+.cover-wrapper.focus .menu .list-h a.active i+p {
+  color: #3dd9b6;
+}
+.cover-wrapper.dock .menu .list-h a.active img+p,
+.cover-wrapper.featured .menu .list-h a.active img+p,
+.cover-wrapper.focus .menu .list-h a.active img+p {
+  color: var(--color-text);
+}
+.cover-wrapper.dock .menu .list-h a:hover,
+.cover-wrapper.featured .menu .list-h a:hover,
+.cover-wrapper.focus .menu .list-h a:hover {
+  background: var(--color-card);
+}
+.cover-wrapper.dock .top {
+  margin-bottom: 48px;
+}
+.cover-wrapper.dock .menu {
+  background: rgba(255,255,255,0.5);
+  position: absolute;
+  bottom: 0;
+  max-width: 100%;
+}
+.cover-wrapper.dock .menu .list-h {
+  flex-wrap: nowrap;
+  -webkit-flex-wrap: nowrap;
+  -khtml-flex-wrap: nowrap;
+  -moz-flex-wrap: nowrap;
+  -o-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  margin: 4px;
+}
+.cover-wrapper.dock .menu .list-h a+a {
+  margin-left: 4px;
+}
+@media screen and (max-width: 500px) {
+  .cover-wrapper.dock .menu .list-h {
+    overflow-x: scroll;
+  }
+  .cover-wrapper.dock .menu .list-h::-webkit-scrollbar {
+    height: 0;
+    width: 0;
+  }
+  .cover-wrapper.dock .menu .list-h::-webkit-scrollbar-track-piece {
+    background: transparent;
+  }
+  .cover-wrapper.dock .menu .list-h::-webkit-scrollbar-thumb {
+    background: #3dd9b6;
+    cursor: pointer;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+  }
+  .cover-wrapper.dock .menu .list-h::-webkit-scrollbar-thumb:hover {
+    background: #ff5722;
+  }
+}
+@supports (backdrop-filter: blur(20px)) {
+  .cover-wrapper.dock .menu {
+    background: rgba(255,255,255,0.5);
+    backdrop-filter: saturate(200%) blur(20px);
+  }
+}
+@font-face {
+  font-family: 'UbuntuMono';
+  src: url("https://unpkg.com/volantis-static@0.0.1654736714924/media/fonts/UbuntuMono/UbuntuMono-Regular.ttf");
+  font-weight: 'normal';
+  font-style: 'normal';
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Varela Round';
+  src: url("https://unpkg.com/volantis-static@0.0.1654736714924/media/fonts/VarelaRound/VarelaRound-Regular.ttf");
+  font-weight: 'normal';
+  font-style: 'normal';
+  font-display: swap;
+}
+.l_header {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  width: 100%;
+  height: 64px;
+  background: var(--color-card);
+  box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
+  -webkit-box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
+}
+.l_header.auto {
+  transition: opacity 0.4s ease;
+  -webkit-transition: opacity 0.4s ease;
+  -khtml-transition: opacity 0.4s ease;
+  -moz-transition: opacity 0.4s ease;
+  -o-transition: opacity 0.4s ease;
+  -ms-transition: opacity 0.4s ease;
+  visibility: hidden;
+}
+.l_header.auto.show {
+  opacity: 1 !important;
+  -webkit-opacity: 1 !important;
+  -moz-opacity: 1 !important;
+  visibility: visible;
+}
+.l_header .container {
+  margin-left: 16px;
+  margin-right: 16px;
+}
+.l_header #wrapper {
+  height: 100%;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.l_header #wrapper .nav-main,
+.l_header #wrapper .nav-sub {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  flex-wrap: nowrap;
+  -webkit-flex-wrap: nowrap;
+  -khtml-flex-wrap: nowrap;
+  -moz-flex-wrap: nowrap;
+  -o-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+  -khtml-justify-content: space-between;
+  -moz-justify-content: space-between;
+  -o-justify-content: space-between;
+  -ms-justify-content: space-between;
+  align-items: center;
+}
+.l_header #wrapper .nav-main {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+.l_header #wrapper.sub .nav-main {
+  transform: translateY(-64px);
+  -webkit-transform: translateY(-64px);
+  -khtml-transform: translateY(-64px);
+  -moz-transform: translateY(-64px);
+  -o-transform: translateY(-64px);
+  -ms-transform: translateY(-64px);
+}
+.l_header #wrapper .nav-sub {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+  opacity: 0;
+  -webkit-opacity: 0;
+  -moz-opacity: 0;
+  height: 64px;
+  width: calc(100% - 2 * 16px);
+  position: absolute;
+}
+.l_header #wrapper .nav-sub ::-webkit-scrollbar {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+}
+@media screen and (min-width: 2048px) {
+  .l_header #wrapper .nav-sub {
+    max-width: 55vw;
+    margin: auto;
+  }
+}
+.l_header #wrapper.sub .nav-sub {
+  opacity: 1;
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+}
+.l_header #wrapper .title {
+  position: relative;
+  color: var(--color-text);
+  padding-left: 24px;
+  max-height: 64px;
+}
+.l_header #wrapper .nav-main .title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0;
+  line-height: 64px;
+  padding: 0 24px;
+  font-size: 1.25rem;
+  font-family: "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Helvetica, monospace;
+}
+.l_header #wrapper .nav-main .title img {
+  height: 64px;
+}
+.l_header .nav-sub {
+  max-width: 1080px;
+  margin: auto;
+}
+.l_header .nav-sub .title {
+  font-weight: bold;
+  font-family: UbuntuMono, "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Menlo, Monaco, monospace, sans-serif;
+  line-height: 1.2;
+  max-height: 64px;
+  white-space: normal;
+  flex-shrink: 1;
+}
+.l_header .switcher {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  line-height: 64px;
+  align-items: center;
+}
+.l_header .switcher .s-toc {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+}
+@media screen and (max-width: 768px) {
+  .l_header .switcher .s-toc {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: -ms-flexbox /* TWEENER - IE 10 */;
+    display: -webkit-flex /* NEW - Chrome */;
+    display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+    display: flex;
+  }
+}
+.l_header .switcher >li {
+  height: 48px;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+  margin: 2px;
+}
+@media screen and (max-width: 500px) {
+  .l_header .switcher >li {
+    margin: 0 1px;
+    height: 48px;
+  }
+}
+.l_header .switcher >li >a {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  justify-content: center;
+  -webkit-justify-content: center;
+  -khtml-justify-content: center;
+  -moz-justify-content: center;
+  -o-justify-content: center;
+  -ms-justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0.85em 1.1em;
+  border-radius: 100px;
+  -webkit-border-radius: 100px;
+  border: none;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+  color: #3dd9b6;
+}
+.l_header .switcher >li >a:hover {
+  border: none;
+}
+.l_header .switcher >li >a.active,
+.l_header .switcher >li >a:active {
+  border: none;
+  background: var(--color-site-bg);
+}
+@media screen and (max-width: 500px) {
+  .l_header .switcher >li >a {
+    width: 36px;
+    height: 48px;
+  }
+}
+.l_header .nav-sub .switcher {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+}
+.l_header .m_search {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  height: 64px;
+  width: 240px;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+@media screen and (max-width: 1024px) {
+  .l_header .m_search {
+    width: 44px;
+    min-width: 44px;
+  }
+  .l_header .m_search input::placeholder {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+  }
+  .l_header .m_search:hover {
+    width: 240px;
+  }
+  .l_header .m_search:hover input::placeholder {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@media screen and (min-width: 500px) {
+  .l_header .m_search:hover .input {
+    width: 100%;
+  }
+  .l_header .m_search:hover .input::placeholder {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@media screen and (max-width: 500px) {
+  .l_header .m_search {
+    min-width: 0;
+  }
+  .l_header .m_search input::placeholder {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+.l_header .m_search .form {
+  position: relative;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+.l_header .m_search .icon {
+  position: absolute;
+  width: 36px;
+  left: 5px;
+  color: var(--color-meta);
+}
+@media screen and (max-width: 500px) {
+  .l_header .m_search .icon {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: none;
+  }
+}
+.l_header .m_search .input {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  line-height: 1.3;
+  width: 100%;
+  color: var(--color-text);
+  background: #fafafa;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  padding-left: 40px;
+  font-size: 0.875rem;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border: none;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+@media screen and (min-width: 500px) {
+  .l_header .m_search .input:focus {
+    box-shadow: 0 4px 8px 0px rgba(0,0,0,0.1);
+    -webkit-box-shadow: 0 4px 8px 0px rgba(0,0,0,0.1);
+  }
+}
+@media screen and (max-width: 500px) {
+  .l_header .m_search .input {
+    background: var(--color-block);
+    padding-left: 8px;
+    border: none;
+  }
+  .l_header .m_search .input:hover,
+  .l_header .m_search .input:focus {
+    border: none;
+  }
+}
+@media (max-width: 500px) {
+  .l_header .m_search {
+    left: 0;
+    width: 0;
+    overflow: hidden;
+    position: absolute;
+    background: #fff;
+    transition: all 0.28s ease;
+    -webkit-transition: all 0.28s ease;
+    -khtml-transition: all 0.28s ease;
+    -moz-transition: all 0.28s ease;
+    -o-transition: all 0.28s ease;
+    -ms-transition: all 0.28s ease;
+  }
+  .l_header .m_search .input {
+    border-radius: 32px;
+    -webkit-border-radius: 32px;
+    margin-left: 16px;
+    padding-left: 16px;
+  }
+  .l_header.z_search-open .m_search {
+    width: 100%;
+  }
+  .l_header.z_search-open .m_search .input {
+    width: calc(100% - 120px);
+  }
+}
+ul.m-pc >li>a {
+  color: inherit;
+  border-bottom: 2px solid transparent;
+}
+ul.m-pc >li>a:active,
+ul.m-pc >li>a.active {
+  border-bottom: 2px solid #3dd9b6;
+}
+ul.m-pc li:hover >ul.list-v,
+ul.list-v li:hover >ul.list-v {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+}
+ul.nav-list-h {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  align-items: stretch;
+}
+ul.nav-list-h>li {
+  position: relative;
+  justify-content: center;
+  -webkit-justify-content: center;
+  -khtml-justify-content: center;
+  -moz-justify-content: center;
+  -o-justify-content: center;
+  -ms-justify-content: center;
+  height: 100%;
+  line-height: 2.4;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+ul.nav-list-h>li >a {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 600;
+}
+ul.list-v {
+  z-index: 1;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  position: absolute;
+  background: var(--color-card);
+  box-shadow: 0 2px 4px 0px rgba(0,0,0,0.08), 0 4px 8px 0px rgba(0,0,0,0.08), 0 8px 16px 0px rgba(0,0,0,0.08);
+  -webkit-box-shadow: 0 2px 4px 0px rgba(0,0,0,0.08), 0 4px 8px 0px rgba(0,0,0,0.08), 0 8px 16px 0px rgba(0,0,0,0.08);
+  margin-top: -6px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  padding: 8px 0;
+}
+ul.list-v.show {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+}
+ul.list-v hr {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+ul.list-v >li {
+  white-space: nowrap;
+  word-break: keep-all;
+}
+ul.list-v >li.header {
+  font-size: 0.78125rem;
+  font-weight: bold;
+  line-height: 2em;
+  color: var(--color-meta);
+  margin: 8px 16px 4px;
+}
+ul.list-v >li.header i {
+  margin-right: 8px;
+}
+ul.list-v >li ul {
+  margin-left: 0;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  margin-top: -40px;
+}
+ul.list-v .aplayer-container {
+  min-height: 64px;
+  padding: 6px 16px;
+}
+ul.list-v >li>a {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  color: var(--color-list);
+  font-size: 0.875rem;
+  font-weight: bold;
+  line-height: 36px;
+  padding: 0 20px 0 16px;
+  text-overflow: ellipsis;
+  margin: 0 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+@media screen and (max-width: 1024px) {
+  ul.list-v >li>a {
+    line-height: 40px;
+  }
+}
+ul.list-v >li>a >i {
+  margin-right: 8px;
+}
+ul.list-v >li>a:active,
+ul.list-v >li>a.active {
+  color: var(--color-list-hl);
+}
+ul.list-v >li>a:hover {
+  color: var(--color-list-hl);
+  background: var(--color-site-bg);
+}
+.l_header .menu >ul>li>a {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  padding: 0 8px;
+}
+.l_header .menu >ul>li>a >i {
+  margin-right: 4px;
+}
+.l_header ul.nav-list-h>li {
+  color: var(--color-list);
+  line-height: 64px;
+}
+.l_header ul.nav-list-h>li >a {
+  max-height: 64px;
+  overflow: hidden;
+  color: inherit;
+}
+.l_header ul.nav-list-h>li >a:active,
+.l_header ul.nav-list-h>li >a.active {
+  color: #3dd9b6;
+}
+.l_header ul.nav-list-h>li:hover>a {
+  color: var(--color-list-hl);
+}
+.l_header ul.nav-list-h>li i.music {
+  animation: rotate-effect 1.5s linear infinite;
+  -webkit-animation: rotate-effect 1.5s linear infinite;
+  -khtml-animation: rotate-effect 1.5s linear infinite;
+  -moz-animation: rotate-effect 1.5s linear infinite;
+  -o-animation: rotate-effect 1.5s linear infinite;
+  -ms-animation: rotate-effect 1.5s linear infinite;
+}
+@-moz-keyframes rotate-effect {
+  0% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -khtml-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    -ms-transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -khtml-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -khtml-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -khtml-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -khtml-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes rotate-effect {
+  0% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -khtml-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    -ms-transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -khtml-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -khtml-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -khtml-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -khtml-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+@-o-keyframes rotate-effect {
+  0% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -khtml-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    -ms-transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -khtml-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -khtml-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -khtml-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -khtml-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+@keyframes rotate-effect {
+  0% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -khtml-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    -ms-transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -khtml-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -khtml-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -khtml-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -khtml-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+.menu-phone li ul.list-v {
+  right: calc(100% - 0.5 * 16px);
+}
+.menu-phone li ul.list-v ul {
+  right: calc(100% - 0.5 * 16px);
+}
+#wrapper {
+  max-width: 1080px;
+  margin: auto;
+}
+@media screen and (min-width: 2048px) {
+  #wrapper {
+    max-width: 55vw;
+  }
+}
+#wrapper .menu {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1 1;
+  -ms-flex: 1 1;
+  flex: 1 1;
+  margin: 0 16px 0 0;
+}
+#wrapper .menu .list-v ul {
+  left: calc(100% - 0.5 * 16px);
+}
+.menu-phone {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  margin-top: 16px;
+  right: 8px;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+.menu-phone ul {
+  right: calc(100% - 0.5 * 16px);
+}
+@media screen and (max-width: 500px) {
+  .menu-phone {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: block;
+  }
+}
+.l_header {
+  max-width: 65vw;
+  left: calc((100% - 65vw) * 0.5);
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+@media screen and (max-width: 2048px) {
+  .l_header {
+    max-width: 1112px;
+    left: calc((100% - 1112px) * 0.5);
+  }
+}
+@media screen and (max-width: 1112px) {
+  .l_header {
+    left: 0;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    max-width: 100%;
+  }
+}
+@media screen and (max-width: 500px) {
+  .l_header .container {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .l_header #wrapper .nav-main .title {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .l_header #wrapper .nav-sub {
+    width: 100%;
+  }
+  .l_header #wrapper .nav-sub .title {
+    overflow-y: scroll;
+    margin-top: 2px;
+    padding: 8px 16px;
+  }
+  .l_header #wrapper .switcher {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: -ms-flexbox /* TWEENER - IE 10 */;
+    display: -webkit-flex /* NEW - Chrome */;
+    display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+    display: flex;
+    margin-right: 8px;
+  }
+  .l_header .menu {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: none;
+  }
+}
+@media screen and (max-width: 500px) {
+  .list-v li {
+    max-width: 270px;
+  }
+}
+#u-search {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 60px 20px;
+  z-index: 1001;
+}
+@media screen and (max-width: 680px) {
+  #u-search {
+    padding: 0px;
+  }
+}
+
+  </style>
+  <link rel="stylesheet" href="/ZaNot.github.io/css/style.css" media="print" onload="this.media='all';this.onload=null">
+  <noscript><link rel="stylesheet" href="/ZaNot.github.io/css/style.css"></noscript>
+  
+<script>
+if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode))
+    document.write(
+	'<style>'+
+		'html{'+
+			'overflow-x: hidden !important;'+
+			'overflow-y: hidden !important;'+
+		'}'+
+		'.kill-ie{'+
+			'text-align:center;'+
+			'height: 100%;'+
+			'margin-top: 15%;'+
+			'margin-bottom: 5500%;'+
+		'}'+
+    '.kill-t{'+
+      'font-size: 2rem;'+
+    '}'+
+    '.kill-c{'+
+      'font-size: 1.2rem;'+
+    '}'+
+		'#l_header,#l_body{'+
+			'display: none;'+
+		'}'+
+	'</style>'+
+    '<div class="kill-ie">'+
+        `<span class="kill-t"><b>抱歉，您的浏览器无法访问本站</b></span><br/>`+
+        `<span class="kill-c">微软已经于2016年终止了对 Internet Explorer (IE) 10 及更早版本的支持，<br/>继续使用存在极大的安全隐患，请使用当代主流的浏览器进行访问。</span><br/>`+
+        `<a target="_blank" rel="noopener" href="https://blogs.windows.com/windowsexperience/2021/05/19/the-future-of-internet-explorer-on-windows-10-is-in-microsoft-edge/"><strong>了解详情 ></strong></a>`+
+    '</div>');
+</script>
+
+
+<noscript>
+	<style>
+		html{
+			overflow-x: hidden !important;
+			overflow-y: hidden !important;
+		}
+		.kill-noscript{
+			text-align:center;
+			height: 100%;
+			margin-top: 15%;
+			margin-bottom: 5500%;
+		}
+    .kill-t{
+      font-size: 2rem;
+    }
+    .kill-c{
+      font-size: 1.2rem;
+    }
+		#l_header,#l_body{
+			display: none;
+		}
+	</style>
+    <div class="kill-noscript">
+        <span class="kill-t"><b>抱歉，您的浏览器无法访问本站</b></span><br/>
+        <span class="kill-c">本页面需要浏览器支持（启用）JavaScript</span><br/>
+        <a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=启用JavaScript"><strong>了解详情 ></strong></a>
+    </div>
+</noscript>
+
+
+  <script>
+  /************这个文件存放不需要重载的全局变量和全局函数*********/
+  window.volantis = {}; // volantis 全局变量
+  volantis.debug = "env"; // 调试模式
+  volantis.dom = {}; // 页面Dom see: /source/js/app.js etc.
+
+  volantis.GLOBAL_CONFIG ={
+    debug: "env",
+    cdn: {"js":{"app":"/ZaNot.github.io/js/app.js","parallax":"/ZaNot.github.io/js/plugins/parallax.js","rightMenu":"/ZaNot.github.io/js/plugins/rightMenu.js","rightMenus":"/ZaNot.github.io/js/plugins/rightMenus.js","sites":"/ZaNot.github.io/js/plugins/tags/sites.js","friends":"/ZaNot.github.io/js/plugins/tags/friends.js","contributors":"/ZaNot.github.io/js/plugins/tags/contributors.js","search":"/ZaNot.github.io/js/search/hexo.js"},"css":{"style":"/ZaNot.github.io/css/style.css"}},
+    default: {"avatar":"https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/image/2659360.svg"},
+    lastupdate: new Date(1662708268777),
+    sidebar: {
+      for_page: ["blogger","category","tagcloud","donate"],
+      for_post: ["toc"],
+      webinfo: {
+        lastupd: {
+          enable: true,
+          friendlyShow: true
+        },
+        runtime: {
+          data: "2020/01/01",
+          unit: "天"
+        }
+      }
+    },
+    plugins: {
+      message: {"enable":true,"css":"https://unpkg.com/volantis-static@0.0.1654736714924/libs/izitoast/dist/css/iziToast.min.css","js":"https://unpkg.com/volantis-static@0.0.1654736714924/libs/izitoast/dist/js/iziToast.min.js","icon":{"default":"fa-solid fa-info-circle light-blue","quection":"fa-solid fa-question-circle light-blue"},"time":{"default":5000,"quection":20000},"position":"topRight","transitionIn":"bounceInLeft","transitionOut":"fadeOutRight","titleColor":"var(--color-text)","messageColor":"var(--color-text)","backgroundColor":"var(--color-card)","zindex":2147483647,"copyright":{"enable":true,"title":"知识共享许可协议","message":"请遵守 CC BY-NC-SA 4.0 协议。","icon":"far fa-copyright light-blue"},"aplayer":{"enable":true,"play":"fa-solid fa-play","pause":"fa-solid fa-pause"},"rightmenu":{"enable":true,"notice":true}},
+      fancybox: {"css":"https://unpkg.com/volantis-static@0.0.1654736714924/libs/@fancyapps/ui/dist/fancybox.css","js":"https://unpkg.com/volantis-static@0.0.1654736714924/libs/@fancyapps/ui/dist/fancybox.umd.js"},
+      
+      
+      
+    }
+  }
+
+  /******************** volantis.EventListener ********************************/
+  // 事件监听器 see: /source/js/app.js
+  volantis.EventListener = {}
+  // 这里存放pjax切换页面时将被移除的事件监听器
+  volantis.EventListener.list = []
+  //构造方法
+  function volantisEventListener(type, f, ele) {
+    this.type = type
+    this.f = f
+    this.ele = ele
+  }
+  // 移除事件监听器
+  volantis.EventListener.remove = () => {
+    volantis.EventListener.list.forEach(function (i) {
+      i.ele.removeEventListener(i.type, i.f, false)
+    })
+    volantis.EventListener.list = []
+  }
+  /******************** volantis.dom.$ ********************************/
+  // 注：这里没有选择器，也没有forEach一次只处理一个dom，这里重新封装主题常用的dom方法，返回的是dom对象，对象包含了以下方法，同时保留dom的原生API
+  function volantisDom(ele) {
+    if (!ele) ele = document.createElement("div")
+    this.ele = ele;
+    // ==============================================================
+    this.ele.find = (c) => {
+      let q = this.ele.querySelector(c)
+      if (q)
+        return new volantisDom(q)
+    }
+    // ==============================================================
+    this.ele.hasClass = (c) => {
+      return this.ele.className.match(new RegExp('(\\s|^)' + c + '(\\s|$)'));
+    }
+    this.ele.addClass = (c) => {
+      this.ele.classList.add(c);
+      return this.ele
+    }
+    this.ele.removeClass = (c) => {
+      this.ele.classList.remove(c);
+      return this.ele
+    }
+    this.ele.toggleClass = (c) => {
+      if (this.ele.hasClass(c)) {
+        this.ele.removeClass(c)
+      } else {
+        this.ele.addClass(c)
+      }
+      return this.ele
+    }
+    // ==============================================================
+    // 参数 r 为 true 表示pjax切换页面时事件监听器将被移除，false不移除
+    this.ele.on = (c, f, r = 1) => {
+      this.ele.addEventListener(c, f, false)
+      if (r) {
+        volantis.EventListener.list.push(new volantisEventListener(c, f, this.ele))
+      }
+      return this.ele
+    }
+    this.ele.click = (f, r) => {
+      this.ele.on("click", f, r)
+      return this.ele
+    }
+    this.ele.scroll = (f, r) => {
+      this.ele.on("scroll", f, r)
+      return this.ele
+    }
+    // ==============================================================
+    this.ele.html = (c) => {
+      // if(c=== undefined){
+      //   return this.ele.innerHTML
+      // }else{
+      this.ele.innerHTML = c
+      return this.ele
+      // }
+    }
+    // ==============================================================
+    this.ele.hide = (c) => {
+      this.ele.style.display = "none"
+      return this.ele
+    }
+    this.ele.show = (c) => {
+      this.ele.style.display = "block"
+      return this.ele
+    }
+    // ==============================================================
+    return this.ele
+  }
+  volantis.dom.$ = (ele) => {
+    return !!ele ? new volantisDom(ele) : null;
+  }
+  /******************** RunItem ********************************/
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = ()=>{
+          volantis.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) =>{
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index,1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+  /******************** Pjax ********************************/
+  // /layout/_plugins/pjax/index.ejs
+  // volantis.pjax.send(callBack[,"callBackName"]) 传入pjax:send回调函数
+  // volantis.pjax.push(callBack[,"callBackName"]) 传入pjax:complete回调函数
+  // volantis.pjax.error(callBack[,"callBackName"]) 传入pjax:error回调函数
+  volantis.pjax = {};
+  volantis.pjax.method = {
+    complete: new RunItem(),
+    error: new RunItem(),
+    send: new RunItem(),
+  };
+  volantis.pjax = Object.assign(volantis.pjax, {
+    push: volantis.pjax.method.complete.push,
+    error: volantis.pjax.method.error.push,
+    send: volantis.pjax.method.send.push,
+  });
+  /******************** RightMenu ********************************/
+  // volantis.rightmenu.handle(callBack[,"callBackName"]) 外部菜单项控制
+  // 可在 volantis.mouseEvent 处获取右键事件
+  volantis.rightmenu = {};
+  volantis.rightmenu.method = {
+    handle: new RunItem(),
+  }
+  volantis.rightmenu = Object.assign(volantis.rightmenu, {
+    handle: volantis.rightmenu.method.handle.push,
+  });
+  /********************  Dark Mode  ********************************/
+  // /layout/_partial/scripts/darkmode.ejs
+  // volantis.dark.mode 当前模式 dark or light
+  // volantis.dark.toggle() 暗黑模式触发器
+  // volantis.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  volantis.dark = {};
+  volantis.dark.method = {
+    toggle: new RunItem(),
+  };
+  volantis.dark = Object.assign(volantis.dark, {
+    push: volantis.dark.method.toggle.push,
+  });
+  /********************  Message  ********************************/
+  // VolantisApp.message
+  /********************  isMobile  ********************************/
+  // /source/js/app.js
+  // volantis.isMobile
+  // volantis.isMobileOld
+  /********************脚本动态加载函数********************************/
+  // volantis.js(src, cb)  cb 可以传入onload回调函数 或者 JSON对象 例如: volantis.js("src", ()=>{}) 或 volantis.js("src", {defer:true,onload:()=>{}})
+  // volantis.css(src)
+
+  // 返回Promise对象，如下方法同步加载资源，这利于处理文件资源之间的依赖关系，例如：APlayer 需要在 MetingJS 之前加载
+  // (async () => {
+  //     await volantis.js("...theme.plugins.aplayer.js.aplayer...")
+  //     await volantis.js("...theme.plugins.aplayer.js.meting...")
+  // })();
+
+  // 已经加入了setTimeout
+  volantis.js = (src, cb) => {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var HEAD = document.getElementsByTagName("head")[0] || document.documentElement;
+        var script = document.createElement("script");
+        script.setAttribute("type", "text/javascript");
+        if (cb) {
+          if (JSON.stringify(cb)) {
+            for (let p in cb) {
+              if (p == "onload") {
+                script[p] = () => {
+                  cb[p]()
+                  resolve()
+                }
+              } else {
+                script[p] = cb[p]
+                script.onload = resolve
+              }
+            }
+          } else {
+            script.onload = () => {
+              cb()
+              resolve()
+            };
+          }
+        } else {
+          script.onload = resolve
+        }
+        script.setAttribute("src", src);
+        HEAD.appendChild(script);
+      });
+    });
+  }
+  volantis.css = (src) => {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var link = document.createElement('link');
+        link.rel = "stylesheet";
+        link.href = src;
+        link.onload = resolve;
+        document.getElementsByTagName("head")[0].appendChild(link);
+      });
+    });
+  }
+  /********************按需加载的插件********************************/
+  // volantis.import.jQuery().then(()=>{})
+  volantis.import = {
+    jQuery: () => {
+      if (typeof jQuery == "undefined") {
+        return volantis.js("https://unpkg.com/volantis-static@0.0.1654736714924/libs/jquery/dist/jquery.min.js")
+      } else {
+        return new Promise(resolve => {
+          resolve()
+        });
+      }
+    }
+  }
+  /********************** requestAnimationFrame ********************************/
+  // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+  // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+  volantis.requestAnimationFrame = (fn)=>{
+    if (!window.requestAnimationFrame) {
+      window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+    }
+    window.requestAnimationFrame(fn)
+  }
+  /************************ layoutHelper *****************************************/
+  volantis.layoutHelper = (helper, html, opt)=>{
+    opt = Object.assign({clean:false, pjax:true}, opt)
+    function myhelper(helper, html, clean) {
+      volantis.tempDiv = document.createElement("div");
+      volantis.tempDiv.innerHTML = html;
+      let layoutHelper = document.querySelector("#layoutHelper-"+helper)
+      if (layoutHelper) {
+        if (clean) {
+          layoutHelper.innerHTML = ""
+        }
+        layoutHelper.append(volantis.tempDiv);
+      }
+    }
+    myhelper(helper, html, opt.clean)
+    if (opt.pjax) {
+      volantis.pjax.push(()=>{
+        myhelper(helper, html, opt.clean)
+      },"layoutHelper-"+helper)
+    }
+  }
+  /****************************** 滚动事件处理 ****************************************/
+  volantis.scroll = {
+    engine: new RunItem(),
+    unengine: new RunItem(),
+  };
+  volantis.scroll = Object.assign(volantis.scroll, {
+    push: volantis.scroll.engine.push,
+  });
+  // 滚动条距离顶部的距离
+  volantis.scroll.getScrollTop = () =>{
+    let scrollPos;
+    if (window.pageYOffset) {
+      scrollPos = window.pageYOffset;
+    } else if (document.compatMode && document.compatMode != 'BackCompat') {
+      scrollPos = document.documentElement.scrollTop;
+    } else if (document.body) {
+      scrollPos = document.body.scrollTop;
+    }
+    return scrollPos;
+  }
+  // 使用 requestAnimationFrame 处理滚动事件
+  // `volantis.scroll.del` 中存储了一个数值, 该数值检测一定时间间隔内滚动条滚动的位移, 数值的检测频率是浏览器的刷新频率. 数值为正数时, 表示向下滚动. 数值为负数时, 表示向上滚动.
+  volantis.scroll.handleScrollEvents = () => {
+    volantis.scroll.lastScrollTop = volantis.scroll.getScrollTop()
+    function loop() {
+      const scrollTop = volantis.scroll.getScrollTop();
+      if (volantis.scroll.lastScrollTop !== scrollTop) {
+        volantis.scroll.del = scrollTop - volantis.scroll.lastScrollTop;
+        volantis.scroll.lastScrollTop = scrollTop;
+        // if (volantis.scroll.del > 0) {
+        //   console.log("向下滚动");
+        // } else {
+        //   console.log("向上滚动");
+        // }
+        // 注销过期的unengine未滚动事件
+        volantis.scroll.unengine.list=[]
+        volantis.scroll.engine.start();
+      }else{
+        volantis.scroll.unengine.start();
+      }
+      volantis.requestAnimationFrame(loop)
+    }
+    volantis.requestAnimationFrame(loop)
+  }
+  volantis.scroll.handleScrollEvents()
+  // 触发页面滚动至目标元素位置
+  volantis.scroll.to = (ele, option = {}) =>{
+    // 默认配置
+    opt = {
+      top: ele.getBoundingClientRect().top + document.documentElement.scrollTop,
+      behavior: "smooth"
+    }
+    // 定义配置
+    if ("top" in option) {
+      opt.top = option.top
+    }
+    if ("behavior" in option) {
+      opt.behavior = option.behavior
+    }
+    if ("addTop" in option) {
+      opt.top += option.addTop
+    }
+    if (!("observerDic" in option)) {
+      option.observerDic = 100
+    }
+    // 滚动
+    window.scrollTo(opt);
+    // 监视器
+    // 监视并矫正元素滚动到指定位置
+    // 用于处理 lazyload 引起的 cls 导致的定位失败问题
+    // option.observer = false
+    if (option.observer) {
+      setTimeout(()=>{
+        volantis.scroll.unengine.push(()=>{
+          let me = ele.getBoundingClientRect().top
+          if(!(me >= -option.observerDic && me <= option.observerDic)){
+            volantis.scroll.to(ele, option)
+          }
+          volantis.scroll.unengine.remove("unengineObserver")
+        },"unengineObserver")
+      },1000)
+    }
+  }
+  /********************** Content Visibility ********************************/
+  // 见 source/css/first.styl 如果遇到任何问题 删除 .post-story 即可
+  // 一个元素被声明 content-visibility 属性后 如果元素不在 viewport 中 浏览器不会计算其后代元素样式和属性 从而节省 Style & Layout 耗时
+  // content-visibility 的副作用: 锚点失效 等等(实验初期 暂不明确), 使用此方法清除样式
+  volantis.cleanContentVisibility = ()=>{
+    if (document.querySelector(".post-story")) {
+      console.log("cleanContentVisibility");
+      document.querySelectorAll(".post-story").forEach(e=>{
+        e.classList.remove("post-story")
+      })
+    }
+  }
+  /******************************************************************************/
+  /******************************************************************************/
+  /******************************************************************************/
+  //图像加载出错时的处理
+  function errorImgAvatar(img) {
+    img.src = "https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/avatar/round/3442075.svg";
+    img.onerror = null;
+  }
+  function errorImgCover(img) {
+    img.src = "https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/cover/76b86c0226ffd.svg";
+    img.onerror = null;
+  }
+  /******************************************************************************/
+</script>
+
+  <!-- import head_end begin -->
+  <!-- import head_end end -->
+  <!-- Custom Files headEnd begin-->
+  
+  <!-- Custom Files headEnd end-->
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+  <body itemscope itemtype="http://schema.org/WebPage">
+    <!-- import body_begin begin-->
+    <!-- import body_begin end-->
+    <!-- Custom Files bodyBegin begin-->
+    
+    <!-- Custom Files bodyBegin end-->
+    <header itemscope itemtype="http://schema.org/WPHeader" id="l_header" class="l_header auto shadow floatable blur show" style='opacity: 0' >
+  <div class='container'>
+  <div id='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h m-phone' id="pjax-header-nav-list">
+        <li><a id="s-comment" class="fa-solid fa-comments fa-fw" target="_self"  href="/" onclick="return false;" title="comment"></a></li>
+        
+          <li><a id="s-toc" class="s-toc fa-solid fa-list fa-fw" target="_self"  href="/" onclick="return false;" title="toc"></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/ZaNot.github.io/'>
+          
+            <img no-lazy class='logo' src='https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/Logo-NavBar@3x.png'/>
+          
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h m-pc'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/ZaNot.github.io/" title="博客"
+                  
+                  
+                  
+                    active-action="action-ZaNotgithubio"
+                  >
+                  <i class='fa-solid fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/ZaNot.github.io/categories/" title="分类"
+                  
+                  
+                  
+                    active-action="action-ZaNotgithubiocategories"
+                  >
+                  <i class='fa-solid fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/ZaNot.github.io/tags/" title="标签"
+                  
+                  
+                  
+                    active-action="action-ZaNotgithubiotags"
+                  >
+                  <i class='fa-solid fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/ZaNot.github.io/archives/" title="归档"
+                  
+                  
+                  
+                    active-action="action-ZaNotgithubioarchives"
+                  >
+                  <i class='fa-solid fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/ZaNot.github.io/friends/" title="友链"
+                  
+                  
+                  
+                    active-action="action-ZaNotgithubiofriends"
+                  >
+                  <i class='fa-solid fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/ZaNot.github.io/about/" title="关于"
+                  
+                  
+                  
+                    active-action="action-ZaNotgithubioabout"
+                  >
+                  <i class='fa-solid fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+      
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fa-solid fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+      
+
+			<ul class='switcher nav-list-h m-phone'>
+				
+					<li><a class="s-search fa-solid fa-search fa-fw" target="_self" href="/" onclick="return false;" title="search"></a></li>
+				
+				<li>
+          <a class="s-menu fa-solid fa-bars fa-fw" target="_self" href="/" onclick="return false;" title="menu"></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/ZaNot.github.io/" title="博客"
+                  
+                  
+                  
+                    active-action="action-ZaNotgithubio"
+                  >
+                  <i class='fa-solid fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/ZaNot.github.io/categories/" title="分类"
+                  
+                  
+                  
+                    active-action="action-ZaNotgithubiocategories"
+                  >
+                  <i class='fa-solid fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/ZaNot.github.io/tags/" title="标签"
+                  
+                  
+                  
+                    active-action="action-ZaNotgithubiotags"
+                  >
+                  <i class='fa-solid fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/ZaNot.github.io/archives/" title="归档"
+                  
+                  
+                  
+                    active-action="action-ZaNotgithubioarchives"
+                  >
+                  <i class='fa-solid fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/ZaNot.github.io/friends/" title="友链"
+                  
+                  
+                  
+                    active-action="action-ZaNotgithubiofriends"
+                  >
+                  <i class='fa-solid fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/ZaNot.github.io/about/" title="关于"
+                  
+                  
+                  
+                    active-action="action-ZaNotgithubioabout"
+                  >
+                  <i class='fa-solid fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+
+      <!-- Custom Files header begin -->
+      
+      <!-- Custom Files header end -->
+		</div>
+	</div>
+  </div>
+</header>
+
+    <div id="l_body">
+      <div id="l_cover">
+  
+    
+      <!-- see: /layout/_partial/scripts/_ctrl/coverCtrl.ejs -->
+      <div id="none" class='cover-wrapper post dock' style="display: none;">
+        
+  <div class='cover-bg lazyload placeholder' data-bg="https://gcore.jsdelivr.net/gh/MHG-LAB/cron@gh-pages/bing/bing.jpg"></div>
+
+<div class='cover-body'>
+  <div class='top'>
+    
+    
+      <p class="title">Volantis</p>
+    
+    
+  </div>
+  <div class='bottom'>
+    <div class='menu navigation'>
+      <div class='list-h'>
+        
+          
+            <a href="/ZaNot.github.io/v4/getting-started/"
+              
+              
+              active-action="action-ZaNotgithubiov4getting-started">
+              <img src='https://unpkg.com/volantis-static@0.0.1654736714924/media/twemoji/assets/svg/1f5c3.svg'><p>文档</p>
+            </a>
+          
+            <a href="/ZaNot.github.io/faqs/"
+              
+              
+              active-action="action-ZaNotgithubiofaqs">
+              <img src='https://unpkg.com/volantis-static@0.0.1654736714924/media/twemoji/assets/svg/1f516.svg'><p>帮助</p>
+            </a>
+          
+            <a href="/ZaNot.github.io/examples/"
+              
+              
+              active-action="action-ZaNotgithubioexamples">
+              <img src='https://unpkg.com/volantis-static@0.0.1654736714924/media/twemoji/assets/svg/1f396.svg'><p>示例</p>
+            </a>
+          
+            <a href="/ZaNot.github.io/contributors/"
+              
+              
+              active-action="action-ZaNotgithubiocontributors">
+              <img src='https://unpkg.com/volantis-static@0.0.1654736714924/media/twemoji/assets/svg/1f389.svg'><p>社区</p>
+            </a>
+          
+            <a href="/ZaNot.github.io/archives/"
+              
+              
+              active-action="action-ZaNotgithubioarchives">
+              <img src='https://unpkg.com/volantis-static@0.0.1654736714924/media/twemoji/assets/svg/1f4f0.svg'><p>博客</p>
+            </a>
+          
+            <a target="_blank" rel="noopener" href="https://github.com/volantis-x/hexo-theme-volantis/"
+              
+              
+              active-action="action-https:githubcomvolantis-xhexo-theme-volantis">
+              <img src='https://unpkg.com/volantis-static@0.0.1654736714924/media/twemoji/assets/svg/1f9ec.svg'><p>源码</p>
+            </a>
+          
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+        <div id="scroll-down" style="display: none;"><i class="fa fa-chevron-down scroll-down-effects"></i></div>
+      </div>
+    
+  
+</div>
+
+      <div id="safearea">
+        <div class="body-wrapper">
+          
+<div id="l_main" class=''>
+  <article itemscope itemtype="http://schema.org/Article" class="article post white-box reveal md shadow floatable blur article-type-post" id="post" itemscope itemprop="blogPost">
+  <link itemprop="mainEntityOfPage" href="https://selamangit.github.io/ZaNot.github.io/2022/09/09/himpp-kai-fa-sdk-xi-tong-kong-zhi/">
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="BL's Blog">
+  </span>
+  <span hidden itemprop="post" itemscope itemtype="http://schema.org/Post">
+    <meta itemprop="name" content="BL's Blog">
+    <meta itemprop="description" content="BL的个人博客">
+  </span>
+  
+
+
+  
+    <span hidden>
+      <meta itemprop="image" content="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png">
+    </span>
+  
+  <div class="article-meta" id="top">
+    
+    
+    
+      <h1 class="title" itemprop="name headline">
+        HIMPP开发SDK-系统控制
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+<div class='new-meta-item author' itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <a itemprop="url" class='author' href="/" rel="nofollow">
+    <img itemprop="image" src="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/apple-touch-icon.png" class="lazyload" data-srcset="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/apple-touch-icon.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+    <p itemprop="name">LiuBL</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class='new-meta-item category'>
+    <i class="fa-solid fa-folder-open fa-fw" aria-hidden="true"></i>
+    <a class="category-link" href="/ZaNot.github.io/categories/Hispark%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Hispark开发学习笔记</a>
+    
+      <span hidden itemprop="about" itemscope itemtype="http://schema.org/Thing">
+        <a href="/ZaNot.github.io/categories/Hispark%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url"><span itemprop="name">Hispark开发学习笔记</span></a>
+      </span>
+    
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date" itemprop="dateCreated datePublished" datetime="2022-09-09T15:13:36+08:00">
+  <a class='notlink'>
+    <i class="fa-solid fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2022年9月9日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+
+
+          
+        
+        <!-- Custom Files topMeta begin-->
+        
+        <!-- Custom Files topMeta end-->
+      </div>
+    
+  </div>
+
+
+  <div id="layoutHelper-page-plugins"></div>
+  <div id="post-body" itemprop="articleBody">
+    <h3 id="HiMPP——系统控制"><a href="#HiMPP——系统控制" class="headerlink" title="HiMPP——系统控制"></a>HiMPP——系统控制</h3><ul>
+<li>这部分的开发文档介绍的是使用海思的<code>HI_MPI_SYS_xxxxx</code>的API接口来实现对硬件也就是开发板中的各个部件的复位、基本初始化工作，同时还包括了对MPP（媒体处理子系统）中的各个业务模块进行初始化、出初始化还有管理MPP各个业务模块的工作状态，并且提供了当前MPP系统的版本信息、提供大块物理内存管理等功能</li>
+</ul>
+<p>在我看来，这个部分就像一个流程管理，管理了程序的整个生命周期，应用程序要利用开发板上的MPP子系统执行业务，就必须完成MPP系统初始化工作，当应用程序不再需要MPP子系统的时候，就需要释放利用MPP的资源，包括内存和清除初始值，也就是去初始化的过程</p>
+<p>下面介绍开发文档中系统控制提供的功能</p>
+<h4 id="1-视频缓存池"><a href="#1-视频缓存池" class="headerlink" title="1. 视频缓存池"></a>1. 视频缓存池</h4><p>视频缓存池主要向媒体业务提供大块物理内存管理功能 ，负责内存的分配和回收，充分发挥内存缓存池的作用，让物理内存资源在各个媒体处理模块中合理使用</p>
+<div align="center">
+</div>
+
+<p>一组大小相同、物理地址连续的缓存块组成一个视频缓存池。必须在系统初始化之前配置公共视频缓存池。根据业务的不同，公共缓存池的数量、缓存块的大小和数量不同</p>
+<p>初始化视频缓冲池的代码</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<blockquote>
+<p>暂时未找到，待填</p>
+</blockquote>
+<p>所有的视频输入通道都可以从公共视频缓存池中获取视频缓存块用于保存采集的图像，如图中所示<code>VI</code>从公共视频缓存池<code>B</code>中获取视频缓存块<code>Bm</code>,缓存块<code>Bm</code>经<code>VI</code>发送给<code>VPSS</code>，输入缓存块<code>Bm</code>经过<code>VPSS</code> 处理之后被释放回公共视频缓存池。假设<code>VPSS</code>通道的工作模式是<code>USER</code>，则<code>VPSS</code>通道<code>0</code>从公共视频缓存池<code>B</code>中获取缓存块<code>Bi</code>作为输出图像缓存<code>buffer</code>发送给<code>VENC</code>，<code>VPSS</code>通道<code>1</code>从公共视频缓存池<code>B</code>中获取缓存块<code>Bk</code> 作为输出图像缓存<code>buffer</code> 发送给<code>VO</code>，<code>Bi</code> 经<code>VENC</code> 编码完之后释放回公共视频缓存池，<code>Bk</code> 经<code>VO</code> 显示完之后释放回公共视频缓存池</p>
+<blockquote>
+<p>不管怎么样，都会回到公共视频缓存池</p>
+</blockquote>
+<p>不同类型的视频缓存池大小计算相关API接口在<code>hi_buffer.h</code>文件中，下面我只记录一些可能会用得上的API</p>
+<table>
+<thead>
+<tr>
+<th align="center">视频缓存池大小计算接口</th>
+<th align="center">接口简介</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">COMMON_GetPicBufferConfig</td>
+<td align="center">一般linear格式的YUV各部分数据大小</td>
+</tr>
+<tr>
+<td align="center">COMMON_GetPicBufferSize</td>
+<td align="center">一般linear格式的YUV缓存池</td>
+</tr>
+<tr>
+<td align="center">VI_GetRawBufferSize</td>
+<td align="center">VI写出的Raw数据缓存池</td>
+</tr>
+<tr>
+<td align="center">VI_GetRawBufferSizeEx</td>
+<td align="center">帧压缩模式下根据压缩比计算VI写出的Raw数据缓存BUFFER大小，非帧压缩模式VI_GetRawBufferSize一致。</td>
+</tr>
+<tr>
+<td align="center">AVS_GetPicBufferSize</td>
+<td align="center">AVS输入的YUV数据缓存池</td>
+</tr>
+<tr>
+<td align="center">VDEC_GetPicBufferSize</td>
+<td align="center">VDEC输出的YUV帧存缓存池</td>
+</tr>
+<tr>
+<td align="center">VDEC_GetTmvBufferSize</td>
+<td align="center">VDEC输出的Tmv数据缓存池</td>
+</tr>
+<tr>
+<td align="center">VENC_GetRefBufferSize</td>
+<td align="center">VENC输出的重构帧YUV缓存池</td>
+</tr>
+<tr>
+<td align="center">VENC_GetRefBufferSize</td>
+<td align="center">VENC参考帧大小</td>
+</tr>
+<tr>
+<td align="center">VENC_GetRefPicInfoBufferSize</td>
+<td align="center">VENC参考帧信息（pme、pmeinfo、tmv）大小</td>
+</tr>
+<tr>
+<td align="center">VENC_GetQpmapSize</td>
+<td align="center">Qpmap映射表大小</td>
+</tr>
+<tr>
+<td align="center">VENC_GetQpmapSizeStride</td>
+<td align="center">Qpmap映射表stride</td>
+</tr>
+<tr>
+<td align="center">VENC_GetSkipWeightSize</td>
+<td align="center">SkipWeight映射表大小</td>
+</tr>
+<tr>
+<td align="center">VENC_GetSkipWeightSizeStride</td>
+<td align="center">SkipWeight映射表stride</td>
+</tr>
+<tr>
+<td align="center">VPSS_GetWrapBufferSize</td>
+<td align="center">VPSS低延时卷绕功能输出buffer大小。仅Hi3516EV200支持</td>
+</tr>
+</tbody></table>
+<ul>
+<li>YUV数据结构<br>YUV，是一种颜色编码方法。常使用在各个视频处理组件中。 YUV在对照片或视频编码时，考虑到人类的感知能力，允许降低色度的带宽。YUV是编译true-color颜色空间（color space）的种类，Y’UV, YUV, YCbCr，YPbPr等专有名词都可以称为YUV，彼此有重叠。“Y”表示明亮度（Luminance或Luma），也就是灰阶值，“U”和“V”表示的则是色度（Chrominance或Chroma），作用是描述影像色彩及饱和度，用于指定像素的颜色。</li>
+<li>参考帧<br>参考帧指的是IPB编码时所需参考的帧。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/YUV#:~:text=%20YUV%EF%BC%8C%E6%98%AF%E4%B8%80%E7%A7%8D%E9%A2%9C%E8%89%B2%E7%BC%96%E7%A0%81%E6%96%B9%E6%B3%95%E3%80%82%E5%B8%B8%E4%BD%BF%E7%94%A8%E5%9C%A8%E5%90%84%E4%B8%AA%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86%E7%BB%84%E4%BB%B6%E4%B8%AD%E3%80%82%20YUV%E5%9C%A8%E5%AF%B9%E7%85%A7%E7%89%87%E6%88%96%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81%E6%97%B6%EF%BC%8C%E8%80%83%E8%99%91%E5%88%B0%E4%BA%BA%E7%B1%BB%E7%9A%84%E6%84%9F%E7%9F%A5%E8%83%BD%E5%8A%9B%EF%BC%8C%E5%85%81%E8%AE%B8%E9%99%8D%E4%BD%8E%E8%89%B2%E5%BA%A6%E7%9A%84%E5%B8%A6%E5%AE%BD%E3%80%82YUV%E6%98%AF%E7%BC%96%E8%AF%91true-color%E9%A2%9C%E8%89%B2%E7%A9%BA%E9%97%B4%EF%BC%88color,space%EF%BC%89%E7%9A%84%E7%A7%8D%E7%B1%BB%EF%BC%8CY%27UV%2C%20YUV%2C%20YCbCr%EF%BC%8CYPbPr%E7%AD%89%E4%B8%93%E6%9C%89%E5%90%8D%E8%AF%8D%E9%83%BD%E5%8F%AF%E4%BB%A5%E7%A7%B0%E4%B8%BAYUV%EF%BC%8C%E5%BD%BC%E6%AD%A4%E6%9C%89">YUV参考资料</a><br><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%8F%82%E8%80%83%E5%B8%A7/8119681">参考帧参考资料</a></p>
+<blockquote>
+<p>这两个基础知识还尚未了解，待实践</p>
+</blockquote>
+<h4 id="2-系统绑定"><a href="#2-系统绑定" class="headerlink" title="2. 系统绑定"></a>2. 系统绑定</h4><p>为了启动流程控制的目的，MPP系统提供了系统绑定的接口（HI_MPI_SYS_Bind），即通过数据接收者绑定数据源来建立两者之间的关联关系（只允许数据接收者绑定数据源）绑定后，数据源生成的数据将自动发送给接收者。</p>
+<p>MPP支持的绑定关系：</p>
+<div align="center">
+</div>
+
+<h4 id="3-设置VI和VPSS的工作模式"><a href="#3-设置VI和VPSS的工作模式" class="headerlink" title="3. 设置VI和VPSS的工作模式"></a>3. 设置VI和VPSS的工作模式</h4><p>VI和VPSS各自的工作模式分为在线，离线，并行模式</p>
+<div align="center">
+</div>
+
+<blockquote>
+<p>这里可以试试平行模式来处理，看看能不能更快的处理数据</p>
+</blockquote>
+<p>我的理解是通过系统绑定建立起PIPE，然后通过设置PIPE两端的模块的工作方式，来起到控制系统的目的，PIPE可以设置成多种工作模式</p>
+<ol>
+<li><p>第0个PIPE有4种模式：</p>
+<ul>
+<li><code>VI</code>在线<code>VPSS</code>离线</li>
+<li><code>VI</code>在线<code>VPSS</code>在线</li>
+<li><code>VI</code>离线<code>VPSS</code>离线</li>
+<li><code>VI</code>离线<code>VPSS</code>在线</li>
+</ul>
+</li>
+<li><p>其他PIPE可以有2种模式</p>
+<ul>
+<li>当第0个PIPE为<code>VI</code>离线<code>VPSS</code>在线时绑定的其他PIPE只能设置<code>VI</code>离线<code>VPSS</code>在线</li>
+<li>当第0个PIPE设置成其它模式时绑定的其他PIPE只能为<code>VI</code> 离线<code>VPSS</code>离线</li>
+</ul>
+</li>
+<li><p>PIPE在不同的工作模式下可以进行切换，此时<code>VI</code>需要重建，情况如下：</p>
+<ul>
+<li><code>VI</code>在线模式可以切换到<code>VI</code>并行模式</li>
+<li><code>VI</code>并行模式可以切换到<code>VI</code>在线模式</li>
+<li><code>VI</code>在线模式不能切换到<code>VI</code>离线模式</li>
+<li><code>VI</code>离线模式不能切换到<code>VI</code>在线模式及<code>VI</code>并行模式</li>
+</ul>
+</li>
+</ol>
+<p>设置工作模式的代码：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<blockquote>
+<p>尚未找到，找到之后填上去</p>
+</blockquote>
+<h4 id="4-内存管理"><a href="#4-内存管理" class="headerlink" title="4. 内存管理"></a>4. 内存管理</h4><p>Hi3516DV300将内存划分为OS内存和MMZ（Media Memory Zone）内存，而且用户可以通过load脚本继续划分MMZ内存以供某功能某块单独使用</p>
+<ul>
+<li>OS内存：是指由操作系统管理的内存</li>
+<li>MMZ内存：是指由MMZ驱动模块进行管理供媒体业务单独使用的内存，在驱动加载时可以指定该模块管理内存的大小，海思整套系统（MPP\NNIE\IVE等）都是基于其专有内存进行数据传输、存储的。</li>
+</ul>
+<p>查看MMZ内存信息使用<code>cat /proc/media-mem</code>，可以查看到系统总共、已使用的、剩余的MMZ，包括每一块已经使用的MMZ的使用情况</p>
+<ol>
+<li><p>视频缓存池（VB）<br>VB的本质上就是一个物理地址连续的MMZ内存块，只不过在MPP层里提供了一系列初始化，申请，释放操作的接口，所以VB其实也属于MMZ内存</p>
+<p> 一组大小相同，物理地址连续的缓存块（VB）组成一个视频缓存池（VB POOL）。这个视频缓存池的作用就是给MPP提供大块物理内存管理功能，负责内存的分配和回收。因为VB的使用者主要是海思的硬件模块,比如vi/vpss/venc等等, 需要连续的物理地址, 有点类似早期的linux为硬件DMA分配内存也要求物理地址连续</p>
+</li>
+</ol>
+<h4 id="5-API参考"><a href="#5-API参考" class="headerlink" title="5. API参考"></a>5. API参考</h4><p>下面只介绍一些可能用得上的API接口</p>
+<table>
+<thead>
+<tr>
+<th align="center">API接口名</th>
+<th align="center">解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">HI_MPI_SYS_SetConfig</td>
+<td align="center">配置系统控制参数</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_SYS_GetConfig</td>
+<td align="center">获取系统控制参数</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_SYS_Init</td>
+<td align="center">初始化MPP系统</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_SYS_Exit</td>
+<td align="center">去初始化MPP系统</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_SYS_Bind</td>
+<td align="center">数据源到数据接收者绑定</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_SYS_UnBind</td>
+<td align="center">数据源到数据接收者解绑定</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_SYS_GetBindbyDest</td>
+<td align="center">根据目标获取绑定的源</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_SYS_GetBindbySrc</td>
+<td align="center">根据源获取绑定的目标</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_VB_SetConfig</td>
+<td align="center">设置MPP视频缓存池属性</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_VB_GetConfig</td>
+<td align="center">获取MPP视频缓存池属性</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_VB_Init</td>
+<td align="center">初始化MPP视频缓存池</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_VB_Exit</td>
+<td align="center">去初始化MPP视频缓存池</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_VB_CreatePool</td>
+<td align="center">创建一个视频缓存池</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_VB_DestroyPool</td>
+<td align="center">销毁一个视频缓存池</td>
+</tr>
+<tr>
+<td align="center">HI _MPI_VB_GetBlock</td>
+<td align="center">获取一个缓存块</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_VB_ReleaseBlock</td>
+<td align="center">释放一个已经获取的缓存块</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_VB_PhysAddr2Handle</td>
+<td align="center">用户态通过缓存块的物理地址获取其句柄</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_VB_Handle2PhysAddr</td>
+<td align="center">获取一个缓存块的物理地址</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_VB_Handle2PoolId</td>
+<td align="center">获取一个缓存块所在缓存池的ID</td>
+</tr>
+<tr>
+<td align="center">HI_M PI_VB_InitModCommPool</td>
+<td align="center">初始化模块公共视频缓冲池</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_VB_ExitModCommPool</td>
+<td align="center">注销模块公共视频缓冲池</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_VB_SetModPoolConfig</td>
+<td align="center">设置模块公共视频缓冲池属性</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_VB_GetModPoolConfig</td>
+<td align="center">获取模块公共视频缓冲池属性</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_VB_InquireUserCnt</td>
+<td align="center">查询缓存块使用计数信息</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_VB_GetSupplementAddr</td>
+<td align="center">获取<code>VB</code> <code>Block</code>内存的辅助信息</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_VB_SetSupplementConfig</td>
+<td align="center">设置<code>VB</code>内存的附加信息</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_VB_GetSupplementConfig</td>
+<td align="center">获取<code>VB</code>内存的附加信息</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_SYS_SetR awFrameCompressParam</td>
+<td align="center">设置<code>VI</code>模块 RAW数据的帧压缩比</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_SYS_GetRawFrameCompressParam</td>
+<td align="center">获取<code>VI</code>模块RAW数据的帧压缩比</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_LOG_SetLevelConf</td>
+<td align="center">设置日志等级</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_LOG_G etLevelConf</td>
+<td align="center">获取日志等级</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_LOG_SetWaitFlag</td>
+<td align="center">设置读取日志时等待标志</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_LOG_Read</td>
+<td align="center">读取日志</td>
+</tr>
+<tr>
+<td align="center">HI_MPI_LOG_Close</td>
+<td align="center">关闭日志文件</td>
+</tr>
+<tr>
+<td align="center">sys _mod_init</td>
+<td align="center">系统初始化</td>
+</tr>
+<tr>
+<td align="center">sys _mod_exit</td>
+<td align="center">系统去初始化</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>是不是很多？但是我还没有将全部API记录下来，而且具体的API的使用仍然需要查开发文档，这里只是给出一个概述</p>
+</blockquote>
+<h4 id="6-数据类型"><a href="#6-数据类型" class="headerlink" title="6. 数据类型"></a>6. 数据类型</h4><p>海思给出了它特殊的数据类型，就是一些已经定义好的结构体、枚举类型、或者是变量，分为三大类：基本数据类型、系统控制数据类型、视频公共类型</p>
+<p>下面给出一些比较常见的数据类型：</p>
+<ol>
+<li><p>基本数据类型<br><code>HI_Ux</code>形式的表示的是<code>unsigned</code>的数据类型，<code>x=8,16,32,64</code>分别对应了<code>char</code>，<code>short</code>，<code>int</code>，<code>long long</code>，<code>long</code>对应的是<code>HI_UL(HI_ULONG)</code></p>
+<p> <code>HI_Sx</code>形式的表示的是<code>signed</code>的数据类型，同样<code>x=8,16,32,64</code>分别对应了<code>char</code>，<code>short</code>，<code>int</code>，<code>long long</code></p>
+<ul>
+<li><p>OPERATION_MODE_E：定义操作模式枚举</p>
+  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">enum</span> <span class="token class-name">hiOPERATION_MODE_E</span>
+<span class="token punctuation">{</span>
+    OPERATION_MODE_AUTO <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span><span class="token comment">//自动模式，一般此模式使用程序内部的默认参数</span>
+    OPERATION_MODE_MANUAL <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span><span class="token comment">//手动模式，一般此模式使用用户配置的参数</span>
+    OPERATION_MODE_BUTT
+<span class="token punctuation">}</span> OPERATION_MODE_E<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>  对于前期开发来说，可以直接选择自动模式来进行，开发到一定程度，知识储备足够了可以尝试一下使用手动模式</p>
+</li>
+<li><p>VB_MAX_POOLS：最大的视频缓存池个数</p>
+</li>
+<li><p>MOD_ID_E：定义MPP模块ID枚举类型</p>
+  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">enum</span> <span class="token class-name">hiMOD_ID_E</span>
+<span class="token punctuation">{</span>
+    HI_ID_CMPI <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    HI_ID_VB <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    HI_ID_SYS <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">,</span>
+    HI_ID_RGN <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">,</span>
+    HI_ID_CHNL <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">,</span>
+    HI_ID_VDEC <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">,</span>
+    HI_ID_AVS <span class="token operator">=</span> <span class="token number">6</span><span class="token punctuation">,</span>
+    HI_ID_VPSS <span class="token operator">=</span> <span class="token number">7</span><span class="token punctuation">,</span>
+    HI_ID_VENC <span class="token operator">=</span> <span class="token number">8</span><span class="token punctuation">,</span>
+    HI_ID_SVP <span class="token operator">=</span> <span class="token number">9</span><span class="token punctuation">,</span>
+    HI_ID_H264E <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">,</span>
+    HI_ID_JPEGE <span class="token operator">=</span> <span class="token number">11</span><span class="token punctuation">,</span>
+    HI_ID_MPEG4E <span class="token operator">=</span> <span class="token number">12</span><span class="token punctuation">,</span>
+    HI_ID_H265E <span class="token operator">=</span> <span class="token number">13</span><span class="token punctuation">,</span>
+    HI_ID_JPEGD <span class="token operator">=</span> <span class="token number">14</span><span class="token punctuation">,</span>
+    HI_ID_VO <span class="token operator">=</span> <span class="token number">15</span><span class="token punctuation">,</span>
+    HI_ID_VI <span class="token operator">=</span> <span class="token number">16</span><span class="token punctuation">,</span>
+    HI_ID_DIS <span class="token operator">=</span> <span class="token number">17</span><span class="token punctuation">,</span>
+    HI_ID_VALG <span class="token operator">=</span> <span class="token number">18</span><span class="token punctuation">,</span>
+    HI_ID_RC <span class="token operator">=</span> <span class="token number">19</span><span class="token punctuation">,</span>
+    HI_ID_AIO <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">,</span>
+    HI_ID_AI <span class="token operator">=</span> <span class="token number">21</span><span class="token punctuation">,</span>
+    HI_ID_AO <span class="token operator">=</span> <span class="token number">22</span><span class="token punctuation">,</span>
+    HI_ID_AENC <span class="token operator">=</span> <span class="token number">23</span><span class="token punctuation">,</span>
+    HI_ID_ADEC <span class="token operator">=</span> <span class="token number">24</span><span class="token punctuation">,</span>
+    HI_ID_VPU <span class="token operator">=</span> <span class="token number">25</span><span class="token punctuation">,</span>
+    HI_ID_PCIV <span class="token operator">=</span> <span class="token number">26</span><span class="token punctuation">,</span>
+    HI_ID_PCIVFMW <span class="token operator">=</span> <span class="token number">27</span><span class="token punctuation">,</span>
+    HI_ID_ISP <span class="token operator">=</span> <span class="token number">28</span><span class="token punctuation">,</span>
+    HI_ID_IVE <span class="token operator">=</span> <span class="token number">29</span><span class="token punctuation">,</span>
+    HI_ID_USER <span class="token operator">=</span> <span class="token number">30</span><span class="token punctuation">,</span>
+    HI_ID_DCCM <span class="token operator">=</span> <span class="token number">31</span><span class="token punctuation">,</span>
+    HI_ID_DCCS <span class="token operator">=</span> <span class="token number">32</span><span class="token punctuation">,</span>
+    HI_ID_PROC <span class="token operator">=</span> <span class="token number">33</span><span class="token punctuation">,</span>
+    HI_ID_LOG <span class="token operator">=</span> <span class="token number">34</span><span class="token punctuation">,</span>
+    HI_ID_VFMW <span class="token operator">=</span> <span class="token number">35</span><span class="token punctuation">,</span>
+    HI_ID_H264D <span class="token operator">=</span> <span class="token number">36</span><span class="token punctuation">,</span>
+    HI_ID_GDC <span class="token operator">=</span> <span class="token number">37</span><span class="token punctuation">,</span>
+    HI_ID_PHOTO <span class="token operator">=</span> <span class="token number">38</span><span class="token punctuation">,</span>
+    HI_ID_FB <span class="token operator">=</span> <span class="token number">39</span><span class="token punctuation">,</span>
+    HI_ID_HDMI <span class="token operator">=</span> <span class="token number">40</span><span class="token punctuation">,</span>
+    HI_ID_VOIE <span class="token operator">=</span> <span class="token number">41</span><span class="token punctuation">,</span>
+    HI_ID_TDE <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">,</span>
+    HI_ID_HDR <span class="token operator">=</span> <span class="token number">43</span><span class="token punctuation">,</span>
+    HI_ID_PRORES <span class="token operator">=</span> <span class="token number">44</span><span class="token punctuation">,</span>
+    HI_ID_VGS <span class="token operator">=</span> <span class="token number">45</span><span class="token punctuation">,</span>
+    HI_ID_FD <span class="token operator">=</span> <span class="token number">47</span><span class="token punctuation">,</span>
+    HI_ID_ODT <span class="token operator">=</span> <span class="token number">48</span><span class="token punctuation">,</span> <span class="token comment">//Object detection trace</span>
+    HI_ID_VQA <span class="token operator">=</span> <span class="token number">49</span><span class="token punctuation">,</span> <span class="token comment">//Video quality analysis</span>
+    HI_ID_LPR <span class="token operator">=</span> <span class="token number">50</span><span class="token punctuation">,</span> <span class="token comment">//Object detection trace</span>
+    HI_ID_SVP_NNIE <span class="token operator">=</span> <span class="token number">51</span><span class="token punctuation">,</span>
+    HI_ID_SVP_DSP <span class="token operator">=</span> <span class="token number">52</span><span class="token punctuation">,</span>
+    HI_ID_DPU_RECT <span class="token operator">=</span> <span class="token number">53</span><span class="token punctuation">,</span>
+    HI_ID_DPU_MATCH <span class="token operator">=</span> <span class="token number">54</span><span class="token punctuation">,</span>
+    HI_ID_MOTIONSENSOR <span class="token operator">=</span> <span class="token number">55</span><span class="token punctuation">,</span>
+    HI_ID_MOTIONFUSION <span class="token operator">=</span> <span class="token number">56</span><span class="token punctuation">,</span>
+    HI_ID_GYRODIS <span class="token operator">=</span> <span class="token number">57</span><span class="token punctuation">,</span>
+    HI_ID_PM <span class="token operator">=</span> <span class="token number">58</span><span class="token punctuation">,</span>
+    HI_ID_SVP_ALG <span class="token operator">=</span> <span class="token number">59</span><span class="token punctuation">,</span>
+    HI_ID_IVP <span class="token operator">=</span> <span class="token number">60</span><span class="token punctuation">,</span>
+    HI_ID_MCF <span class="token operator">=</span> <span class="token number">61</span><span class="token punctuation">,</span>
+    HI_ID_QR <span class="token operator">=</span> <span class="token number">62</span><span class="token punctuation">,</span>
+    HI_ID_FR <span class="token operator">=</span> <span class="token number">63</span><span class="token punctuation">,</span>
+    HI_ID_BUTT<span class="token punctuation">,</span>
+<span class="token punctuation">}</span> MOD_ID_E<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>VB_UID_E：定义视频缓冲池的模块ID枚举类型</p>
+  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">enum</span> <span class="token class-name">hiVB_UID_E</span>
+<span class="token punctuation">{</span>
+    VB_UID_VI <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    VB_UID_VO <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    VB_UID _VGS <span class="token operator">=</span>
+    VB_UID_VENC <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">,</span>
+    VB_UID_VDEC <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">,</span>
+    VB_UID_H265E <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">,</span>
+    VB_UID_H264E <span class="token operator">=</span> <span class="token number">6</span><span class="token punctuation">,</span>
+    VB_UID_JPEGE <span class="token operator">=</span> <span class="token number">7</span><span class="token punctuation">,</span>
+    VB_UID_H264D <span class="token operator">=</span> <span class="token number">8</span><span class="token punctuation">,</span>
+    VB_UID_JPEGD <span class="token operator">=</span> <span class="token number">9</span><span class="token punctuation">,</span>
+    VB_UID_VPSS <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">,</span>
+    VB_UID_DIS <span class="token operator">=</span> <span class="token number">11</span><span class="token punctuation">,</span>
+    VB_UID_USER <span class="token operator">=</span> <span class="token number">12</span><span class="token punctuation">,</span>
+    VB_UID_PCIV <span class="token operator">=</span> <span class="token number">13</span><span class="token punctuation">,</span>
+    VB_ UID_AI <span class="token operator">=</span> <span class="token number">14</span><span class="token punctuation">,</span>
+    VB_UID_AENC <span class="token operator">=</span> <span class="token number">15</span><span class="token punctuation">,</span>
+    VB_UID_RC <span class="token operator">=</span> <span class="token number">16</span><span class="token punctuation">,</span>
+    VB_UID_VFMW <span class="token operator">=</span> <span class="token number">17</span><span class="token punctuation">,</span>
+    VB_UID_GDC <span class="token operator">=</span> <span class="token number">18</span><span class="token punctuation">,</span>
+    VB_UID_AVS <span class="token operator">=</span> <span class="token number">19</span><span class="token punctuation">,</span>
+    VB_UID_DPU_RECT <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">,</span>
+    VB_UID_DPU_MATCH <span class="token operator">=</span> <span class="token number">21</span><span class="token punctuation">,</span>
+    VB_UID_MCF <span class="token operator">=</span> <span class="token number">22</span><span class="token punctuation">,</span>
+    VB_UID_BUTT <span class="token operator">=</span> <span class="token number">23</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span> VB_UID_E<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>VB_SOURCE_E：定义VB来源选择</p>
+  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">enum</span> <span class="token class-name">hiVB_SOURCE_E</span>
+<span class="token punctuation">{</span>
+    VB_SOURCE_COMMON <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span><span class="token comment">//公共VB</span>
+    VB_S OURCE_MODULE <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span><span class="token comment">//模块VB</span>
+    VB_SOURCE_PRIVATE <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">,</span><span class="token comment">//私有VB</span>
+    VB_SOURCE_USER <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">,</span><span class="token comment">//用户VB</span>
+    VB_SOURCE_BUTT
+<span class="token punctuation">}</span> VB_SOURCE_E<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>VIDEO_DISPLAY_MODE_E：定义视频显示模式枚举</p>
+  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">enum</span> <span class="token class-name">hiVIDEO_DISPLAY_MODE_E</span>
+<span class="token punctuation">{</span>
+    VIDEO_DISPLAY_MODE_PR EVIEW <span class="token operator">=</span> <span class="token number">0</span>×<span class="token number">0</span><span class="token punctuation">,</span><span class="token comment">//回放模式</span>
+    VIDEO_DISPLAY_MODE_PLAYBACK <span class="token operator">=</span> <span class="token number">0</span>×<span class="token number">1</span><span class="token punctuation">,</span><span class="token comment">//预览模式</span>
+    VIDEO_DISPLAY_MODE_BUTT
+<span class="token punctuation">}</span>VIDEO_DISPLAY_MODE_E<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>WDR_MODE_E：WDR模式枚举</p>
+  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">enum</span> <span class="token class-name">hiWDR_MODE_E</span>
+<span class="token punctuation">{</span>
+    WDR_MODE_NONE <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span><span class="token comment">//线性模式</span>
+    WDR_MODE_BUILT_IN<span class="token punctuation">,</span><span class="token comment">//Sensor合成WDR模式</span>
+    WDR_MODE_QUDRA<span class="token punctuation">,</span><span class="token comment">//QUDRA WDR模式</span>
+    WDR_MODE_2To1_LINE<span class="token punctuation">,</span><span class="token comment">//2帧合成行WDR模式</span>
+    WDR_MODE_2To1_FRAME<span class="token punctuation">,</span><span class="token comment">//2帧合成帧WDR模式</span>
+    WDR_MODE_2To1_FRAME_FULL_RATE<span class="token punctuation">,</span><span class="token comment">//2帧合成帧WDR全帧率模式</span>
+    WDR_MODE_3To1_LINE<span class="token punctuation">,</span><span class="token comment">//3帧合成行WDR模式</span>
+    WDR_MODE_3To1_FRAME<span class="token punctuation">,</span><span class="token comment">//3帧合成帧WDR模式</span>
+    WDR_MODE_3To1_FRAME_FULL_RATE<span class="token punctuation">,</span><span class="token comment">//3帧合成帧WDR全帧率模式</span>
+    WDR_MODE_4To1_LINE<span class="token punctuation">,</span><span class="token comment">//4帧合成行WDR模式</span>
+    WDR_MODE_4To1_FRAME<span class="token punctuation">,</span><span class="token comment">//4帧合成帧WDR模式</span>
+    WDR_MODE_4To1_FRAME_FULL_RATE<span class="token punctuation">,</span><span class="token comment">//4帧合成帧WDR全帧率模式</span>
+    WDR_MODE_BUTT<span class="token punctuation">,</span>
+<span class="token punctuation">}</span>WDR_MODE_E<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>经查阅知，WDR在光照分布差距较大的图片中的效果较好，但是还未实践</p>
+</blockquote>
+</li>
+<li><p>PAYLOAD_TYPE_E：定义音视频净荷类型枚举<br> 其实就是定义音视频的编码形式，主要是<code>PT_H265</code>、<code>PT_H264</code>、<code>PT_JPEG</code>、<code>PT_PNG</code></p>
+</li>
+<li><p>DATA_RATE_E：定义设备的速率 </p>
+  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">enum</span> <span class="token class-name">hiDATA_RATE_E</span>
+<span class="token punctuation">{</span>
+    DATA_RATE_X1 <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span><span class="token comment">//一拍一像素</span>
+    DATA_RATE_X2 <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span><span class="token comment">//一拍两像素</span>
+    DATA_RATE_BUTT
+<span class="token punctuation">}</span>DATA_RATE_E<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>FRAME_FLAG_E：定义帧的类型</p>
+  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">enum</span> <span class="token class-name">hiFRAME_FLAG_E</span>
+<span class="token punctuation">{</span>
+    FRAME_FLAG_SNAP_FLASH <span class="token operator">=</span> <span class="token number">0x1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">0</span><span class="token punctuation">,</span><span class="token comment">//拍照时是否开启闪光灯</span>
+    FRAME_FLAG_SNAP_CUR <span class="token operator">=</span> <span class="token number">0x1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">1</span><span class="token punctuation">,</span><span class="token comment">//拍照的有效数据帧</span>
+    FRAME_FLAG_SNAP_REF <span class="token operator">=</span> <span class="token number">0x1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">2</span><span class="token punctuation">,</span><span class="token comment">//拍照帧的参考帧</span>
+    FRAME_FLAG_SNAP_END <span class="token operator">=</span> <span class="token number">0x1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">31</span><span class="token punctuation">,</span><span class="token comment">//连拍的最后一张帧数据标示</span>
+    FRAME_FLAG_BUTT
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>FRAME_RATE_CTRL_S：定义帧率控制结构体</p>
+  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">hiFRAME_RATE_CTRL_S</span>
+<span class="token punctuation">{</span>
+    HI_S32 s32SrcFrameRate<span class="token punctuation">;</span><span class="token comment">//源帧率，即输入帧率，取值范围-1或[1, 240]</span>
+    HI_S32 s32DstFrameRate<span class="token punctuation">;</span><span class="token comment">//目的帧率，即输出帧率，取值范围：[-1, s32SrcFrameRate]</span>
+<span class="token punctuation">}</span> FRAME_RATE_CTRL_S<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>帧率按我的理解的话应该是每秒的帧数，30fps常用于电影中，可以流畅的看视频</p>
+</blockquote>
+</li>
+<li><p>POINT_S：定义坐标信息结构体</p>
+  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">hiPOINT_S</span>
+<span class="token punctuation">{</span>
+    HI_S32 s32X<span class="token punctuation">;</span><span class="token comment">//横坐标</span>
+    HI_S32 s32Y<span class="token punctuation">;</span><span class="token comment">//纵坐标</span>
+<span class="token punctuation">}</span>POINT_S<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>SIZE_S:定义大小信息结构体</p>
+  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">hiSIZE_S</span>
+<span class="token punctuation">{</span>
+    HI_U32 u32Width<span class="token punctuation">;</span><span class="token comment">//宽度</span>
+    HI_U32 u32Height<span class="token punctuation">;</span><span class="token comment">//高度</span>
+<span class="token punctuation">}</span>SIZE_S<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>RECT_S：定义矩形区域信息结构体</p>
+  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">hiRECT_S</span>
+<span class="token punctuation">{</span>
+    HI_S32 s32X<span class="token punctuation">;</span><span class="token comment">//矩阵框左上角横坐标（应该是，待验证）</span>
+    HI_S32 s32Y<span class="token punctuation">;</span><span class="token comment">//矩阵框左上角纵坐标</span>
+    HI_U32 u32Width<span class="token punctuation">;</span><span class="token comment">//宽度</span>
+    HI_U32 u32Height<span class="token punctuation">;</span><span class="token comment">//高度</span>
+<span class="token punctuation">}</span>RECT_S<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>BORDER_S：定义边框属性结构体</p>
+  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">hiBORDER_S</span>
+<span class="token punctuation">{</span>
+    HI_U32 u32TopWidth<span class="token punctuation">;</span> <span class="token comment">//边框顶部宽度，以像素为单位</span>
+    HI_U32 u32BottomWidth<span class="token punctuation">;</span><span class="token comment">//边框底部宽度，以像素为单位</span>
+    HI_U32 u32LeftWidth<span class="token punctuation">;</span> <span class="token comment">//边框左边宽度，以像素为单位</span>
+    HI_U32 u32RightWidth<span class="token punctuation">;</span><span class="token comment">//边框右边宽度，以像素为单位</span>
+    HI_U32 u32Color<span class="token punctuation">;</span><span class="token comment">//边框颜色，颜色格式为rgb888，u32的低24bit为有效位。</span>
+<span class="token punctuation">}</span>BORDER_S<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>LUMA_INFO_S：定义亮度信息结构体</p>
+  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">hiLUMA_INFO_S</span>
+<span class="token punctuation">{</span>
+    HI_U64 u64LumaPixSum<span class="token punctuation">;</span><span class="token comment">//亮度和</span>
+    HI_U32 u32LumaPixAverage<span class="token punctuation">;</span><span class="token comment">//平均亮度</span>
+    HI_U64 u64PTS<span class="token punctuation">;</span><span class="token comment">//当前帧的PTS</span>
+<span class="token punctuation">}</span>LUMA_INFO_S<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>ISP_FRAME_INFO_S：ISP的实时信息</p>
+  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">hiISP_FRAME_INFO_S</span>
+<span class="token punctuation">{</span>
+    HI_U32 u32ISO<span class="token punctuation">;</span><span class="token comment">//当前sensor模拟增益*sensor数字增益*ISP数字增益*100</span>
+    HI_U32 u32ExposureTime<span class="token punctuation">;</span><span class="token comment">//曝光时间，单位是微秒（us）</span>
+    HI_U32 u32IspDgain<span class="token punctuation">;</span><span class="token comment">//ISP数字增益</span>
+    HI_U32 u32Again<span class="token punctuation">;</span><span class="token comment">//Sensor的模拟增益</span>
+    HI_U32 u32Dgain<span class="token punctuation">;</span><span class="token comment">//Sensor的数字增益</span>
+    HI_U32 au32Ratio<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token comment">//多帧合成WDR相邻2帧默认曝光比</span>
+    HI_U32 u32IspNrStrength<span class="token punctuation">;</span><span class="token comment">//ISP的NR强度。当前未支持，默认值为0</span>
+    HI_U32 u32FNumber<span class="token punctuation">;</span><span class="token comment">//当前使用的镜头的光圈值</span>
+    HI_U32 u32SensorID<span class="token punctuation">;</span><span class="token comment">//当前使用的sensorID</span>
+    HI_U32 u32SensorMode<span class="token punctuation">;</span><span class="token comment">//当前使用的sensor序列模式</span>
+    HI_U32 u32HmaxTimes<span class="token punctuation">;</span><span class="token comment">//当前使用的sensor对应读出一行的时间，单位是纳秒（ns）</span>
+    HI_U32 u32VcNum<span class="token punctuation">;</span><span class="token comment">//当前采集的帧的序列号。当前未支持，默认值为0</span>
+<span class="token punctuation">}</span> ISP_FRAME_INFO_S<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>JPEG_DCF_S：JPEG图片使用的DCF信息</p>
+  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">hiJPEG_DCF_S</span>
+<span class="token punctuation">{</span>
+    HI_U8 au8CaptureTime<span class="token punctuation">[</span>DCF_CAPTURE_TIME_LENGTH<span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token comment">//Jpeg图片拍摄的时间</span>
+    HI_BOOL bFlash<span class="token punctuation">;</span><span class="token comment">//Jpeg照片拍摄的时候是否有闪光灯</span>
+    HI_U32 u32DigitalZoomRatio<span class="token punctuation">;</span><span class="token comment">//Jpeg照片拍摄的时候的数码缩放倍数。</span>
+    ISP_DCF_INFO_S stIspDCFInfo<span class="token punctuation">;</span><span class="token comment">//DCF其他信息，请参考HiISP 开发参考章节。</span>
+<span class="token punctuation">}</span> JPEG_DCF_S<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>ROTATION_EX_S：定义任意角度旋转属性</p>
+ <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">hiROTATION_EX_S</span>
+<span class="token punctuation">{</span>
+    ROTATION_VIEW_TYPE_E enViewType<span class="token punctuation">;</span> <span class="token comment">//任意角度旋转的旋转模式，裁剪模式、全模式和典型模式</span>
+    HI_U32 u32Angle<span class="token punctuation">;</span><span class="token comment">//旋转的角度。范围是[0, 360]</span>
+    HI_ S32 s32CenterXOffset<span class="token punctuation">;</span> <span class="token comment">//旋转中心点相对图象中心点水平偏移。仅典型模式支持。范围是[-511, 511]</span>
+    HI_S32 s32CenterYOffset<span class="token punctuation">;</span> <span class="token comment">//旋转中心点相对图象中心点垂直偏移。仅典型模式支持。范围是[-511, 511]</span>
+    SIZE_S stDestSize<span class="token punctuation">;</span> <span class="token comment">//旋转后的得到的图像大小，如果旋转后截取图像大小相对stDestSize有变化，会对图像进行缩放处理。范围是480*360到最大宽高值（HI3516DV300是4608 x 4608）</span>
+<span class="token punctuation">}</span> ROTATION_EX_S<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>ROTATION_VIEW_TYPE_E：定义旋转的视野模式</p>
+  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">enum</span> <span class="token class-name">hiROTATION_VIEW_TYPE_E</span>
+<span class="token punctuation">{</span>
+    ROTATION_VIEW_TYPE_ALL <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span><span class="token comment">//全模式，保留所有的图像，无图像视野损失，但随着旋转角度改变带来较多的黑边</span>
+    ROTATION_VIEW_TYPE_TYPICAL <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token comment">//典型模式，用原有视野截取旋转后图像，会有部分图像损失，也会留有一定量的黑边</span>
+    ROTATION_VIEW_TYPE_INSIDE <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">,</span><span class="token comment">//无黑边模式，在旋转后图中选取无黑边的视野大小</span>
+    ROTATION_VIEW_TYPE_BUTT<span class="token punctuation">,</span>
+<span class="token punctuation">}</span> ROTATION_V IEW_TYPE_E<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>ROTATION_E：定义旋转角度枚举</p>
+  <pre class="line-numbers language-C" data-language="C"><code class="language-C">typedef enum hiROTATION_E
+{
+    ROTATION_0 = 0,//不旋转，旋转0度
+    ROTATION_90 = 1,//旋转90度
+    ROTATION_180 = 2,//旋转180度
+    ROTATION_270 = 3,//旋转270度
+    ROTATION_BUTT
+}ROTATION_E;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>关于镜头矫正的API接口并没有列出来，因为现在的目的是能使用摄像头进行视觉开发，至于优化的问题可以在后面进行</p>
+</blockquote>
+<ol start="2">
+<li>系统控制数据类型<ul>
+<li><p>MPP_CHN_S：定义模块设备通道结构体</p>
+  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">hiMPP_CHN_S</span>
+<span class="token punctuation">{</span>
+    MOD_ID_E enModId<span class="token punctuation">;</span><span class="token comment">//模块号</span>
+    HI_S32 s32DevId<span class="token punctuation">;</span><span class="token comment">//设备号</span>
+    HI_S32 s32ChnId<span class="token punctuation">;</span><span class="token comment">//通道号</span>
+<span class="token punctuation">}</span> MPP_CHN_S<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>MPP_BIND_DEST_SL：定义MPP系统绑定目的信息结构体</p>
+  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">hiMPP_BIND_DEST_S</span>
+<span class="token punctuation">{</span>
+    HI_U32 u32Num<span class="token punctuation">;</span><span class="token comment">//通过SYS绑定的目的数目</span>
+    MPP_CHN_S astMppChn<span class="token punctuation">[</span>BIND_DEST_MAXNUM<span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token comment">//通过SYS绑定的目的模块通道信息结构体</span>
+<span class="token punctuation">}</span>MPP_BIND_DEST_S<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>VI_VPSS_MODE_E：定义<code>VI PIPE</code>和<code>VPSS</code>组的工作模式</p>
+  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">enum</span> <span class="token class-name">hiVI_VPSS_MODE_E</span>
+    VI_OFFLINE_VPSS_OFFLINE <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span><span class="token comment">//VI离线，VPSS离线</span>
+    VI_OFFLINE_VPSS_ONLINE<span class="token punctuation">,</span><span class="token comment">//VI离线，VPSS在线</span>
+    VI_ONLINE_VPSS_OFFLINE<span class="token punctuation">,</span><span class="token comment">//VI在线，VPSS离线</span>
+    VI_ONLINE_VPSS_ONLINE<span class="token punctuation">,</span><span class="token comment">//VI在线，VPSS在线</span>
+    VI_PARALLEL_VPSS_OFFLINE<span class="token punctuation">,</span><span class="token comment">//VI并行，VPSS离线</span>
+    VI_PARALLEL_VPSS_PARALLEL<span class="token punctuation">,</span><span class="token comment">//VI并行，VPSS并行</span>
+    VI_VPSS_MODE_BUTT
+<span class="token punctuation">}</span> VI_VPSS_MODE_E<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>VI_ OFFLINE _VPSS_ONLINE，VI_ONLINE_VPSS_ONLINE，VI_PARALLEL_VPSS_PARALLEL 模式下<code>VI PIPE</code>编号与<code>VPSS GROUP</code>号一一对应，数据从<code>VI PIPE</code>流动 到<code>VPSS GROUP</code>不需要软件设定绑定关系</li>
+</ul>
+</li>
+<li><p>VI_VPSS_MODE_S：定义<code>VI</code>各个<code>PIPE</code>和<code>VPSS</code>各个组的工作模式</p>
+  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">hiVI_VPSS_MODE_S</span>
+<span class="token punctuation">{</span>
+    VI_VPSS_MODE_E aenMode<span class="token punctuation">[</span>VI_MAX_PIPE_NUM<span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token comment">//VI各个PIPE和VPSS各个组的工作模式。</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>VB_CONFIG_S：定义视频缓存池属性结构体</p>
+  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">hiVB_CONFIG_S</span>
+    HI_U32 u32MaxPoolCnt<span class="token punctuation">;</span><span class="token comment">//整个系统中可容纳的缓存池个数。(0, VB_MAX_POOLS]</span>
+    VB_POOL_CONFIG_S astCommPool<span class="token punctuation">[</span>VB_MAX_COMM_POOLS<span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token comment">//公共缓存池属性结构体</span>
+<span class="token punctuation">}</span> VB_CONFIG_S<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>VB_POOL_CONFIG_S：定义视频缓存池属性结构体</p>
+  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">hiVB_POOL_CONFIG_S</span>
+<span class="token punctuation">{</span>
+    HI_U64 u64BlkSize<span class="token punctuation">;</span><span class="token comment">//缓存块大小</span>
+    HI_U32 u32BlkCnt<span class="token punctuation">;</span><span class="token comment">//每个缓存池的缓存块个数</span>
+    VB_REMAP _MODE_E enRemapMode<span class="token punctuation">;</span><span class="token comment">//VB的内核态虚拟地址映射模式</span>
+    HI_CHAR acMmzName<span class="token punctuation">[</span>MAX_MMZ_NAME_LEN<span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token comment">//当前缓存池从哪个MMZ区域分配内存</span>
+<span class="token punctuation">}</span>VB_POOL_CONFIG_S<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>VB_REMAP_MODE_E：定义VB内核态虚拟地址映射模式</p>
+  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">enum</span> <span class="token class-name">hiVB_REMAP_MODE_E</span> <span class="token punctuation">{</span>
+    VB_REMAP_MODE_NONE <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token comment">// VB不映射内核态虚拟地址</span>
+    VB_REMAP_MODE_NOCACHE <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token comment">//VB映射nocache属性的内核态虚拟地址</span>
+    VB_REMAP_MODE_CACHED <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token comment">//VB映射cached属性的内核态虚拟地址</span>
+    VB_REMAP_MODE_BUTT
+<span class="token punctuation">}</span> VB_REMAP_MODE_E<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>RAW_FRAME_COMPRESS_PARAM_S ：定义<code>VI</code>模块RAW数据的压缩比</p>
+  <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">hiRAW_FRAME_COMPRESS_PARAM_S</span>
+<span class="token punctuation">{</span>
+    HI_U32 u32CompRatio_10Bit<span class="token punctuation">;</span><span class="token comment">//VI 10bit RAW数据的压缩比</span>
+    HI_U32 u32CompRatio_12Bit<span class="token punctuation">;</span><span class="token comment">//VI 12bit RAW数据的压缩比</span>
+    HI_U32 u32CompRatio_14Bit<span class="token punctuation">;</span><span class="token comment">//VI 14bit RAW数据的压缩比</span>
+<span class="token punctuation">}</span>RAW_FRAME_COMPRESS_PARAM_S<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>这里的 压缩比是 放大了1000 倍， 即$\frac{输入大小}{输出大小}\times1000$</li>
+<li>当 压缩比发生变化的时候，所需要的<code>VB</code>大小是不一样的，可以通过VI_GetRawBufferSizeEx函数计算<code>VB</code>大小</li>
+<li>当设置的压缩比超过默认值时，由于压缩算法的原因可能会导致视觉上可见的损失，因而，为了保证压缩效果，建议用户设置的值不要超过默认值</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>这里只是列出一些定义的结构体，还有一些定义好的宏定义就没有列出来了，需要自己查阅文档，VPSS和VGS的相关操作也没有列出</p>
+</blockquote>
+<ol start="3">
+<li>视频公共类型<ul>
+<li><p>PIXEL_FORMAT_E：定义像素格式类型</p>
+<pre><code class="c">typedef enum hiPIXEL_FORMAT_E {
+    PIXEL_FORMAT_RGB_444 = 0,
+    PIXEL_FORMAT_RGB_555,
+    PIXEL_FORMAT_RGB_565,
+    PIXEL_FORMAT_RGB_888,
+
+    PIXEL_FORMAT_BGR_444,
+    PIXEL_FORMAT_BGR_555,
+    PIXEL_FORMAT_BGR_565,
+    PIXEL_FORMAT_BGR_888,
+
+    PIXEL_FORMAT_ARGB_1555,
+    PIXEL_FORMAT_ARGB_4444,
+    PIXEL_FORMAT_ARGB_8565,
+    PIXEL_FORMAT_ARGB_8888,
+    PIXEL_FORMAT_ARGB_2BPP,
+
+    PIXEL_FORMAT_ABGR_1555,
+    PIXEL_FORMAT_ABGR_4444,
+    PIXEL_FORMAT_ABGR_8565,
+    PIXEL_FORMAT_ABGR_8888,
+
+    PIXEL_FORMAT_RGB_BAYER_8BPP,
+    PIXEL_FORMAT_RGB_BAYER_10BPP,
+    PIXEL_FORMAT_RGB_BAYER_12BPP,
+    PIXEL_FORMAT_RGB_BAYER_14BPP,
+    PIXEL_FORMAT_RGB_BAYER_16BPP,
+    
+    PIXEL_FORMAT_YVU_PLANAR_422,
+    PIXEL_FORMAT_YVU_PLANAR_420,
+    PIXEL_FORMAT_YVU_PLANAR_444,
+
+    PIXEL_FORMAT_YVU_SEMIPLANAR_422,
+    PIXEL_FORMAT_YVU_SEMIPLANAR_420,
+    PIXEL_FORMAT_YVU_SEMIPLANAR_444,
+
+    PIXEL_FORMAT_YUV_SEMIPLANAR_422,
+    PIXEL_FORMAT_YUV_SEMIPLANAR_420,
+    PIXEL_FORMAT_YUV_SEMIPLANAR_444,
+
+    PIXEL_FORMAT_YUYV_PACKAGE_422,
+    PIXEL_FORMAT_YVYU_PACKAGE_422,
+    PIXEL_FORMAT_UYVY_PACKAGE_422,
+    PIXEL_FORMAT_VYUY_PACKAGE_422,
+    PIXEL_FORMAT_YYUV_PACKAGE_422,
+    PIXEL_FORMAT_YYVU_PACKAGE_422,
+    PIXEL_FORMAT_UVYY_PACKAGE_422,
+    PIXEL_FORMAT_VUYY_PACKAGE_422,
+    PIXEL_FORMAT_VY1UY0_PACKAGE_422,
+
+    PIXEL_FORMAT_YUV_400,
+    PIXEL_FORMAT_UV_420,
+
+    /* SVP data format */
+    PIXEL_FORMAT_BGR_888_PLANAR,
+    PIXEL_FORMAT_HSV_888_PACKAGE,
+    PIXEL_FORMAT_HSV_888_PLANAR,
+    PIXEL_FORMAT_LAB_888_PACKAGE,
+    PIXEL_FORMAT_LAB_888_PLANAR,
+    PIXEL_FORMAT_S8C1,
+    PIXEL_FORMAT_S8C2_PACKAGE,
+    PIXEL_FORMAT_S8C2_PLANAR,
+    PIXEL_FORMAT_S8C3_PLANAR,
+    PIXEL_FORMAT_S16C1,
+    PIXEL_FORMAT_U8C1,
+    PIXEL_FORMAT_U16C1,
+    PIXEL_FORMAT_S32C1,
+    PIXEL_FORMAT_U32C1,
+    PIXEL_FORMAT_U64C1,
+    PIXEL_FORMAT_S64C1,
+
+    PIXEL_FORMAT_BUTT
+} PIXEL_FORMAT_E;
+</code></pre>
+</li>
+<li><p>DYNAMIC_RANGE_E：定义动态范围枚举</p>
+<pre><code class="c">typedef enum hiDYNAMIC_RANGE_E {
+    DYNAMIC_RANGE_SDR8 = 0,
+    DYNAMIC_RANGE_SDR10,
+    DYNAMIC_RANGE_HDR10,
+    DYNAMIC_RANGE_HLG,
+    DYNAMIC_RANGE_SLF,
+    DYNAMIC_RANGE_XDR,
+    DYNAMIC_RANGE_BUTT
+} DYNAMIC_RANGE_E;
+</code></pre>
+</li>
+<li><p>VIDEO_FORMAT_E：定义视频格式结构体</p>
+<pre><code class="c">typedef enum hiVIDEO_FORMAT_E {
+    VIDEO_FORMAT_LINEAR = 0,       /* nature video line */
+    VIDEO_FORMAT_TILE_64x16,       /* tile cell: 64pixel x 16line */
+    VIDEO_FORMAT_TILE_16x8,        /* tile cell: 16pixel x 8line */
+    VIDEO_FORMAT_LINEAR_DISCRETE,  /* The data bits are aligned in bytes */
+    VIDEO_FORMAT_BUTT
+} VIDEO_FORMAT_E;
+</code></pre>
+</li>
+<li><p>COMPRESS_MODE_E：定义视频压缩数据格式结构体</p>
+<pre><code class="c">typedef enum hiCOMPRESS_MODE_E {
+    COMPRESS_MODE_NONE = 0,   /* no compress */
+    COMPRESS_MODE_SEG,        /* compress unit is 256x1 bytes as a segment.*/
+    COMPRESS_MODE_TILE,       /* compress unit is a tile.*/
+    COMPRESS_MODE_LINE,       /* compress unit is the whole line.  raw for VI  */
+    COMPRESS_MODE_FRAME,      /* compress unit is the whole frame. YUV for VI(3DNR), RGB for TDE(write)/VO(read) */
+    COMPRESS_MODE_BUTT
+} COMPRESS_MODE_E;
+</code></pre>
+</li>
+<li><p>VB_CAL_CONFIG_S：定义视频图像帧各部分数据大小配置信息结构体<br>  ```c<br>  typedef struct hiVB_CAL_CONFIG_S<br>  {<br>  HI_U32 u32VBSize;       //视频图像帧总大小。<br>  HI_U32 u32HeadStride;   //视频图像帧压缩头stride<br>  HI_U32 u32HeadSize;     //视频图像帧压缩头总大小<br>  HI_U32 u32HeadYSize;    //视频图像帧亮度压缩头大小<br>  HI_U32 u32MainStride;   //视频图像帧主体数据stride<br>  HI_U32 u32MainSize;     //视频图像帧主体数据总大小<br>  HI_U32 u32MainYSize;    //视频图像帧主体数据亮度大小<br>  HI_U32 u32ExtStride;    //10bit像素的视频图像帧额外存储的2bit数据stride<br>  HI_U32 u32ExtYSize;     //10bit像素的视频图像帧额外存储的2bit数据亮度大小<br>  }VB_CAL_CONFIG_S;</p>
+</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>暂时先不去了解这个数据类型，因为我觉得这边的开发需要比较多的图像知识</p>
+</blockquote>
+
+  </div>
+  
+  
+    
+    <div class='footer'>
+       <!-- 参考资料、相关资料等 -->
+      
+       <!-- 相关文章 -->
+      
+      <!-- 版权声明组件 -->
+      
+      <!-- 打赏组件 -->
+      
+    </div>
+  
+  
+    
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2022-09-09T15:13:36+08:00">
+  <a class='notlink'>
+    <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2022年9月9日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://selamangit.github.io/ZaNot.github.io/2022/09/09/himpp-kai-fa-sdk-xi-tong-kong-zhi/&title=HIMPP开发SDK-系统控制 - BL's Blog&summary="
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/logo/128/qq.png" class="lazyload" data-srcset="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/logo/128/qq.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://selamangit.github.io/ZaNot.github.io/2022/09/09/himpp-kai-fa-sdk-xi-tong-kong-zhi/&title=HIMPP开发SDK-系统控制 - BL's Blog&summary="
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/logo/128/qzone.png" class="lazyload" data-srcset="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/logo/128/qzone.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://selamangit.github.io/ZaNot.github.io/2022/09/09/himpp-kai-fa-sdk-xi-tong-kong-zhi/&title=HIMPP开发SDK-系统控制 - BL's Blog&summary="
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/logo/128/weibo.png" class="lazyload" data-srcset="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/logo/128/weibo.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+          
+        </a>
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+    <!-- Custom Files bottomMeta begin -->
+    
+    <!-- Custom Files bottomMeta end -->
+  </div>
+
+
+  
+  
+
+  
+    <div class="prev-next">
+      
+        <a class='prev' href='/ZaNot.github.io/2022/09/09/himpp-kai-fa-sdk-shi-pin-chu-li-zi-xi-tong/'>
+          <p class='title'><i class="fa-solid fa-chevron-left" aria-hidden="true"></i>HiMPP开发SDK-视频处理子系统</p>
+          <p class='content'>HiMPP——视频处理子系统（VPSS）
+VPSS（Video Process Sub System）是视频处理子系统，支持的具体图像处理功能包括 FRC（Frame Rate Control）...</p>
+        </a>
+      
+      
+        <a class='next' href='/ZaNot.github.io/2022/09/09/gui-fan-git-commit/'>
+          <p class='title'>规范git commit<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>commit message格式&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;
+
+1. type(必须)feat：新功能（feature）。
+fix/t...</p>
+        </a>
+      
+    </div>
+  
+  <!-- Custom Files postEnd begin-->
+  
+  <!-- Custom Files postEnd end-->
+</article>
+
+
+  
+
+
+  <article class="post white-box shadow floatable blur" id="comments">
+    <span hidden>
+      <meta itemprop="discussionUrl" content="/ZaNot.github.io/2022/09/09/himpp-kai-fa-sdk-xi-tong-kong-zhi/index.html#comments">
+    </span>
+    <p ct><i class='fa-solid fa-comments'></i> 评论</p>
+    
+
+    <div id="layoutHelper-comments"></div>
+
+  </article>
+
+
+
+
+
+
+</div>
+<aside id='l_side' itemscope itemtype="http://schema.org/WPSideBar">
+  
+
+  
+    
+    
+      
+    
+  
+
+
+<div class="widget-sticky pjax">
+
+  
+  
+
+
+  <section class="widget toc-wrapper desktop mobile " id="toc-div" >
+    
+  <header>
+    
+      <i class="fa-solid fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#HiMPP%E2%80%94%E2%80%94%E7%B3%BB%E7%BB%9F%E6%8E%A7%E5%88%B6"><span class="toc-text">HiMPP——系统控制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E8%A7%86%E9%A2%91%E7%BC%93%E5%AD%98%E6%B1%A0"><span class="toc-text">1. 视频缓存池</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%B3%BB%E7%BB%9F%E7%BB%91%E5%AE%9A"><span class="toc-text">2. 系统绑定</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E8%AE%BE%E7%BD%AEVI%E5%92%8CVPSS%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F"><span class="toc-text">3. 设置VI和VPSS的工作模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="toc-text">4. 内存管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-API%E5%8F%82%E8%80%83"><span class="toc-text">5. API参考</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">6. 数据类型</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+  
+
+</div>
+
+
+<!-- 没有 pjax 占位会报错 万恶的 pjax -->
+
+  <div class="pjax">
+    <!-- pjax占位 -->
+  </div>
+
+  <div class="pjax">
+    <!-- pjax占位 -->
+  </div>
+
+  <div class="pjax">
+    <!-- pjax占位 -->
+  </div>
+
+  <div class="pjax">
+    <!-- pjax占位 -->
+  </div>
+
+  <div class="pjax">
+    <!-- pjax占位 -->
+  </div>
+
+  <div class="pjax">
+    <!-- pjax占位 -->
+  </div>
+
+  <div class="pjax">
+    <!-- pjax占位 -->
+  </div>
+
+  <div class="pjax">
+    <!-- pjax占位 -->
+  </div>
+
+  <!-- Custom Files side begin -->
+  
+  <!-- Custom Files side end -->
+</aside>
+
+
+
+          <!--此文件用来存放一些不方便取值的变量-->
+<!--思路大概是将值藏到重加载的区域内-->
+
+<pjax>
+<script>
+  window.pdata={}
+  pdata.ispage=true;
+  pdata.commentPath="";
+  pdata.commentPlaceholder="";
+  pdata.commentConfig={};
+  //  see: /layout/_partial/scripts/_ctrl/coverCtrl.ejs
+  
+    // header
+    var l_header=document.getElementById("l_header");
+    
+    l_header.classList.add("show");
+    
+    
+      // cover
+      var cover_wrapper=document.querySelector('#l_cover .cover-wrapper');
+      var scroll_down=document.getElementById('scroll-down');
+      cover_wrapper.id="none";
+      cover_wrapper.style.display="none";
+      scroll_down.style.display="none";
+    
+  
+</script>
+</pjax>
+        </div>
+        
+  
+  <footer class="footer clearfix"  itemscope itemtype="http://schema.org/WPFooter">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper" itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          
+            
+          
+            
+          
+            
+          
+        </div>
+      
+    
+      
+        <div><p>博客内容遵循 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+      
+    
+      
+        
+          <div><p><span id="lc-sv">本站总访问量为 <span id='number'><i class="fa-solid fa-loader fa-spin fa-fw" aria-hidden="true"></i></span> 次</span> <span id="lc-uv">访客数为 <span id='number'><i class="fa-solid fa-loader fa-spin fa-fw" aria-hidden="true"></i></span> 人</span></p>
+</div>
+        
+      
+    
+      
+        本站使用
+        <a href="https://github.com/volantis-x/hexo-theme-volantis/#5.7.6" target="_blank" class="codename">Volantis</a>
+        作为主题
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="/">Copyright © since 2017 XXX</a></p>
+
+        </div>
+      
+    
+    <!-- Custom Files footer begin-->
+    
+    <!-- Custom Files footer end-->
+  </footer>
+
+
+        <a id="s-top" class="fa-solid fa-arrow-up fa-fw" href="/" onclick="return false;" title="top"></a>
+      </div>
+    </div>
+    <div>
+      <script>
+  /******************** volantis.dom ********************************/
+  // 页面选择器 将dom对象缓存起来 see: /source/js/app.js etc.
+  volantis.dom.bodyAnchor = volantis.dom.$(document.getElementById("safearea")); // 页面主体
+  volantis.dom.topBtn = volantis.dom.$(document.getElementById('s-top')); // 向上
+  volantis.dom.wrapper = volantis.dom.$(document.getElementById('wrapper')); // 整个导航栏
+  volantis.dom.coverAnchor = volantis.dom.$(document.querySelector('#l_cover .cover-wrapper')); // 1个
+  volantis.dom.switcher = volantis.dom.$(document.querySelector('#l_header .switcher .s-search')); // 搜索按钮   移动端 1个
+  volantis.dom.header = volantis.dom.$(document.getElementById('l_header')); // 移动端导航栏
+  volantis.dom.search = volantis.dom.$(document.querySelector('#l_header .m_search')); // 搜索框 桌面端 移动端 1个
+  volantis.dom.mPhoneList = volantis.dom.$(document.querySelectorAll('#l_header .m-phone .list-v')); //  手机端 子菜单 多个
+</script>
+
+<script>
+  
+  volantis.css("https://unpkg.com/volantis-static@0.0.1654736714924/libs/@fortawesome/fontawesome-free/css/all.min.css");
+  
+  
+  
+</script>
+
+<!-- required -->
+
+
+<!-- internal -->
+
+<script src="/ZaNot.github.io/ZaNot.github.io/js/app.js"></script>
+
+
+
+
+
+
+<!-- rightmenu要在darkmode之前（ToggleButton） darkmode要在comments之前（volantis.dark.push）-->
+
+
+
+<script>
+  function loadIssuesJS() {
+    
+      const sites_api = document.getElementById('sites-api');
+      if (sites_api != undefined && typeof SitesJS === 'undefined') {
+        volantis.js("/ZaNot.github.io/js/plugins/tags/sites.js")
+      }
+    
+    
+      const friends_api = document.getElementById('friends-api');
+      if (friends_api != undefined && typeof FriendsJS === 'undefined') {
+        volantis.js("/ZaNot.github.io/js/plugins/tags/friends.js")
+      }
+    
+    
+      const contributors_api = document.getElementById('contributors-api');
+      if (contributors_api != undefined && typeof ContributorsJS === 'undefined') {
+        volantis.js("/ZaNot.github.io/js/plugins/tags/contributors.js")
+      }
+    
+  };
+  loadIssuesJS()
+  volantis.pjax.push(()=>{
+    loadIssuesJS();
+  })
+
+</script>
+
+
+
+
+  <script defer src="https://unpkg.com/volantis-static@0.0.1654736714924/libs/vanilla-lazyload/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 0
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    lazyLoadInstance.update();
+  });
+  document.addEventListener('pjax:complete', function () {
+    lazyLoadInstance.update();
+  });
+</script>
+
+
+
+
+  
+
+<script>
+  window.FPConfig = {
+	delay: 0,
+	ignoreKeywords: ["#"],
+	maxRPS: 6,
+	hoverDelay: 0
+  };
+</script>
+<script defer src="https://unpkg.com/volantis-static@0.0.1654736714924/libs/flying-pages/flying-pages.min.js"></script>
+
+
+
+
+
+
+
+
+
+      <script>
+  volantis.layoutHelper("comments",`<div id="giscus_container"></div>`)
+
+  volantis.giscus = {};
+
+  function check_giscus() {
+    if (volantis.dark.mode === "dark") {
+      volantis.giscus.Theme = 'dark';
+    } else {
+      volantis.giscus.Theme = 'light';
+    }
+
+    return document.getElementById("giscus_container");
+  }
+
+  function pjax_giscus() {
+    const HEAD = check_giscus();
+    if (!HEAD) return;
+    let cfg = Object.assign({"theme":{"light":"light","dark":"dark"}},pdata.commentConfig)
+    const script = document.createElement('script');
+    script.setAttribute('src', 'https://giscus.app/client.js');
+    Object.keys(cfg).forEach(k=>{
+      if (k != "theme") {
+        script.setAttribute('data-'+k, cfg[k]);
+      }
+    })
+    script.setAttribute('data-theme', volantis.giscus.Theme);
+    script.setAttribute('crossorigin', "anonymous");
+    HEAD.appendChild(script);
+  }
+
+  function dark_giscus() {
+    const HEAD = check_giscus();
+    if (!HEAD) return;
+
+    const message = {
+      setConfig: {
+        theme: volantis.giscus.Theme
+      }
+    };
+    const giscusIframe = document.querySelector('iframe.giscus-frame');
+    giscusIframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+  }
+  pjax_giscus();
+  volantis.pjax.push(pjax_giscus);
+  volantis.dark.push(dark_giscus);
+</script>
+
+    
+
+
+
+
+
+<!-- optional -->
+
+  <script>
+  const SearchServiceDataPathRoot = ("/ZaNot.github.io/" || "/").endsWith("/") ?
+    "/ZaNot.github.io/" || "/" :
+    "/ZaNot.github.io//" || "/";
+  const SearchServiceDataPath = SearchServiceDataPathRoot + "content.json";
+
+  function loadSearchScript() {
+    // see: layout/_partial/scripts/_ctrl/cdnCtrl.ejs
+    return volantis.js("/ZaNot.github.io/js/search/hexo.js");
+  }
+
+  function loadSearchService() {
+    loadSearchScript();
+    document.querySelectorAll(".input.u-search-input").forEach((e) => {
+      e.removeEventListener("focus", loadSearchService, false);
+    });
+
+    document.querySelectorAll(".u-search-form").forEach((e) => {
+      e.addEventListener("submit", (event) => {
+        event.preventDefault();
+      }, false);
+    });
+  }
+
+  // 打开并搜索 字符串 s
+  function OpenSearch(s) {
+    if (typeof SearchService === 'undefined')
+      loadSearchScript().then(() => {
+        SearchService.setQueryText(s);
+        SearchService.search();
+      });
+    else {
+      SearchService.setQueryText(s);
+      SearchService.search();
+    }
+  }
+
+  // 访问含有 ?s=xxx  的链接时打开搜索 // 与搜索引擎 structured data 相关: /scripts/helpers/structured-data/lib/config.js
+  if (window.location.search && /^\?s=/g.test(window.location.search)) {
+    let queryText = decodeURI(window.location.search)
+      .replace(/\ /g, "-")
+      .replace(/^\?s=/g, "");
+    OpenSearch(queryText);
+  }
+
+  // 搜索输入框获取焦点时加载搜索
+  document.querySelectorAll(".input.u-search-input").forEach((e) => {
+    e.addEventListener("focus", loadSearchService, false);
+  });
+</script>
+
+
+
+
+
+
+
+  <script>
+
+
+
+  function pjax_highlightjs_copyCode(){
+    if (!(document.querySelector(".highlight .code pre") ||
+      document.querySelector(".article pre code"))) {
+      return;
+    }
+    VolantisApp.utilCopyCode(".highlight .code pre, .article pre code")
+  }
+  volantis.requestAnimationFrame(pjax_highlightjs_copyCode)
+  volantis.pjax.push(pjax_highlightjs_copyCode)
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  <script>
+  function load_swiper() {
+    if (!document.querySelectorAll(".swiper-container")[0]) return;
+    volantis.css("https://unpkg.com/volantis-static@0.0.1654736714924/libs/swiper/swiper-bundle.min.css");
+    volantis.js("https://unpkg.com/volantis-static@0.0.1654736714924/libs/swiper/swiper-bundle.min.js").then(() => {
+      pjax_swiper();
+    });
+  }
+
+  load_swiper();
+
+  function pjax_swiper() {
+    volantis.swiper = new Swiper('.swiper-container', {
+      slidesPerView: 'auto',
+      spaceBetween: 8,
+      centeredSlides: true,
+      loop: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+  }
+
+  volantis.pjax.push(() => {
+    if (!document.querySelectorAll(".swiper-container")[0]) return;
+    if (typeof volantis.swiper === "undefined") {
+      load_swiper();
+    } else {
+      pjax_swiper();
+    }
+  });
+</script>
+
+
+<!-- pjax 标签必须存在于所有页面 否则 pjax error -->
+<pjax>
+
+</pjax>
+
+<script>
+  function listennSidebarTOC() {
+    const navItems = document.querySelectorAll(".toc li");
+    if (!navItems.length) return;
+    let targets = []
+    const sections = [...navItems].map((element) => {
+      const link = element.querySelector(".toc-link");
+      const target = document.getElementById(
+        decodeURI(link.getAttribute("href")).replace("#", "")
+      );
+      targets.push(target)
+      // 解除 a 标签 href 的 锚点定位, a 标签 href 的 锚点定位 会随机启用?? 产生错位???
+      link.setAttribute("onclick","return false;")
+      link.setAttribute("toc-action","toc-"+decodeURI(link.getAttribute("href")).replace("#", ""))
+      link.setAttribute("href","/")
+      // 配置 点击 触发新的锚点定位
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        // 这里的 addTop 是通过错位使得 toc 自动展开.
+        volantis.scroll.to(target,{addTop: 5, observer:true})
+        // Anchor id
+        history.pushState(null, document.title, "#" + target.id);
+      });
+      return target;
+    });
+
+    function activateNavByIndex(target) {
+      if (target.classList.contains("active-current")) return;
+
+      document.querySelectorAll(".toc .active").forEach((element) => {
+        element.classList.remove("active", "active-current");
+      });
+      target.classList.add("active", "active-current");
+      let parent = target.parentNode;
+      while (!parent.matches(".toc")) {
+        if (parent.matches("li")) parent.classList.add("active");
+        parent = parent.parentNode;
+      }
+    }
+
+    // 方案一：
+    volantis.activateNavIndex=0
+    activateNavByIndex(navItems[volantis.activateNavIndex])
+    volantis.scroll.push(()=>{
+      if (targets[0].getBoundingClientRect().top >= 0) {
+        volantis.activateNavIndex = 0
+      }else if (targets[targets.length-1].getBoundingClientRect().top < 0) {
+        volantis.activateNavIndex = targets.length-1
+      } else {
+        for (let index = 0; index < targets.length; index++) {
+          const target0 = targets[index];
+          const target1 = targets[(index+1)%targets.length];
+          if (target0.getBoundingClientRect().top < 0&&target1.getBoundingClientRect().top >= 0) {
+            volantis.activateNavIndex=index
+            break;
+          }
+        }
+      }
+      activateNavByIndex(navItems[volantis.activateNavIndex])
+    })
+
+    // 方案二：
+    // IntersectionObserver 不是完美精确到像素级别 也不是低延时性的
+    // function findIndex(entries) {
+    //   let index = 0;
+    //   let entry = entries[index];
+    //   if (entry.boundingClientRect.top > 0) {
+    //     index = sections.indexOf(entry.target);
+    //     return index === 0 ? 0 : index - 1;
+    //   }
+    //   for (; index < entries.length; index++) {
+    //     if (entries[index].boundingClientRect.top <= 0) {
+    //       entry = entries[index];
+    //     } else {
+    //       return sections.indexOf(entry.target);
+    //     }
+    //   }
+    //   return sections.indexOf(entry.target);
+    // }
+    // function createIntersectionObserver(marginTop) {
+    //   marginTop = Math.floor(marginTop + 10000);
+    //   let intersectionObserver = new IntersectionObserver(
+    //     (entries, observe) => {
+    //       let scrollHeight = document.documentElement.scrollHeight;
+    //       if (scrollHeight > marginTop) {
+    //         observe.disconnect();
+    //         createIntersectionObserver(scrollHeight);
+    //         return;
+    //       }
+    //       let index = findIndex(entries);
+    //       activateNavByIndex(navItems[index]);
+    //     }, {
+    //       rootMargin: marginTop + "px 0px -100% 0px",
+    //       threshold: 0,
+    //     }
+    //   );
+    //   sections.forEach((element) => {
+    //     element && intersectionObserver.observe(element);
+    //   });
+    // }
+    // createIntersectionObserver(document.documentElement.scrollHeight);
+  }
+
+  document.addEventListener("DOMContentLoaded", ()=>{
+    volantis.requestAnimationFrame(listennSidebarTOC)
+  });
+  document.addEventListener("pjax:success", ()=>{
+    volantis.requestAnimationFrame(listennSidebarTOC)
+  });
+</script>
+
+
+
+<script>
+  document.onreadystatechange = function () {
+    if (document.readyState == 'complete') {
+      // 页面加载完毕 样式加载失败，或是当前网速慢，或是开启了省流模式
+      const { saveData, effectiveType } = navigator.connection || navigator.mozConnection || navigator.webkitConnection || {}
+      if (getComputedStyle(document.querySelector("#safearea"), null)["display"] == "none" || saveData || /2g/.test(effectiveType)) {
+        document.querySelectorAll(".reveal").forEach(function (e) {
+          e.style["opacity"] = "1";
+        });
+        document.querySelector("#safearea").style["display"] = "block";
+      }
+    }
+  }
+</script>
+
+
+  <script type="application/ld+json">[{"@context":"http://schema.org","@type":"Organization","name":"BL's Blog","url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"http://schema.org","@type":"Person","name":"LiuBL","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","sameAs":["https://github.com/volantis-x"],"description":"BL的个人博客"},{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","name":"BL's Blog"}},{"@type":"ListItem","position":2,"item":{"@id":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/categories/Hispark开发学习笔记/","name":"Hispark开发学习笔记"}},{"@type":"ListItem","position":3,"item":{"@id":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/2022/09/09/himpp-kai-fa-sdk-xi-tong-kong-zhi/","name":"HIMPP开发SDK-系统控制"}}]},{"@context":"http://schema.org","@type":"WebSite","name":"BL's Blog","url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","keywords":null,"description":"BL的个人博客","author":{"@type":"Person","name":"LiuBL","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","description":"BL的个人博客"},"publisher":{"@type":"Organization","name":"BL's Blog","url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://selamangit.github.io/ZaNot.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"http://schema.org","@type":"BlogPosting","headline":"HIMPP开发SDK-系统控制","description":"BL的个人博客","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://selamangit.github.io/ZaNot.github.io/2022/09/09/himpp-kai-fa-sdk-xi-tong-kong-zhi/"},"author":{"@type":"Person","name":"LiuBL","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/"},"publisher":{"@type":"Organization","name":"BL's Blog","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://selamangit.github.io/ZaNot.github.io/2022/09/09/himpp-kai-fa-sdk-xi-tong-kong-zhi/","wordCount":0,"datePublished":"2022-09-09T07:13:36.451Z","dateModified":"2022-09-09T07:13:36.453Z","articleSection":"Hispark开发学习笔记","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+
+
+
+      
+        <!--
+  pjax重载区域接口：
+  1.  <pjax></pjax> 标签 pjax 标签必须存在于所有页面 否则 pjax error
+  2.  script[data-pjax]
+  3.  .pjax-reload script
+  4.  .pjax
+-->
+
+
+
+<script src="https://unpkg.com/volantis-static@0.0.1654736714924/libs/pjax/pjax.min.js"></script>
+
+
+<script>
+    var pjax;
+    document.addEventListener('DOMContentLoaded', function () {
+      pjax = new Pjax({
+        elements: 'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([pjax-fancybox]):not([onclick="return false;"]):not([onclick="return!1"]):not([target="_blank"]):not([target="view_window"]):not([href$=".xml"])',
+        selectors: [
+          "head title",
+          "head meta[name=keywords]",
+          "head meta[name=description]",
+          
+          "#l_main",
+          "#pjax-header-nav-list",
+          ".pjax",
+          "pjax", // <pjax></pjax> 标签
+          "script[data-pjax], .pjax-reload script" // script标签添加data-pjax 或 script标签外层添加.pjax-reload 的script代码段重载
+        ],
+        cacheBust: false,   // url 地址追加时间戳，用以避免浏览器缓存
+        timeout: 5000,
+        
+      });
+    });
+
+    document.addEventListener('pjax:send', function (e) {
+      //window.stop(); // 相当于点击了浏览器的停止按钮
+
+      try {
+        var currentUrl = window.location.pathname;
+        var targetUrl = e.triggerElement.href;
+        var banUrl = [""];
+        if (banUrl[0] != "") {
+          banUrl.forEach(item => {
+            if(currentUrl.indexOf(item) != -1 || targetUrl.indexOf(item) != -1) {
+              window.location.href = targetUrl;
+            }
+          });
+        }
+      } catch (error) {}
+
+      // 使用 volantis.pjax.send 方法传入pjax:send回调函数 参见layout/_partial/scripts/global.ejs
+      volantis.pjax.method.send.start();
+    });
+
+    document.addEventListener('pjax:complete', function () {
+      // 使用 volantis.pjax.push 方法传入重载函数 参见layout/_partial/scripts/global.ejs
+      volantis.pjax.method.complete.start();
+    });
+
+    document.addEventListener('pjax:error', function (e) {
+      if(volantis.debug) {
+        console.error(e);
+        console.log('pjax error: \n' + JSON.stringify(e));
+      }else{
+        // 使用 volantis.pjax.error 方法传入pjax:error回调函数 参见layout/_partial/scripts/global.ejs
+        volantis.pjax.method.error.start();
+        window.location.href = e.triggerElement.href;
+      }
+    });
+</script>
+
+      
+    </div>
+    <!-- import body_end begin-->
+    <!-- import body_end end-->
+    <!-- Custom Files bodyEnd begin-->
+    
+    <!-- Custom Files bodyEnd end-->
+  </body>
+</html>
