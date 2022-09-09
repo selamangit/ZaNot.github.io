@@ -39,11 +39,11 @@
 <meta property="og:title" content="BL&#39;s Blog">
 <meta property="og:url" content="https://selamangit.github.io/ZaNot.github.io/2022/09/08/yolo-v3/index.html">
 <meta property="og:site_name" content="BL&#39;s Blog">
-<meta property="og:description" content="YOLO-V3 YOLO-V3是比较完善的一个目标检测的框架，它经过一代一代的发展，一步步地完善，接下来介绍一些YOLO-V3在V2的基础上进行了哪些的改进，下图为我训练出来模型的检测效果   先验框的更新在V2中，先验框是由K-mean聚类算法得出的5种不同尺寸的先验框，在V3中考虑到Darknet-53会输出三种尺寸的预测，因此选取先验框时应该选取的是3的倍数，最终选择了9种先验框，每种尺寸都">
+<meta property="og:description" content="YOLO-V3 YOLO-V3是比较完善的一个目标检测的框架，它经过一代一代的发展，一步步地完善，接下来介绍一些YOLO-V3在V2的基础上进行了哪些的改进，下图为我训练出来模型的检测效果     先验框的更新在V2中，先验框是由K-mean聚类算法得出的5种不同尺寸的先验框，在V3中考虑到Darknet-53会输出三种尺寸的预测，因此选取先验框时应该选取的是3的倍数，最终选择了9种先验框，每种尺">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png">
 <meta property="article:published_time" content="2022-09-08T13:43:05.569Z">
-<meta property="article:modified_time" content="2022-09-08T13:39:13.038Z">
+<meta property="article:modified_time" content="2022-09-08T17:23:28.322Z">
 <meta property="article:author" content="LiuBL">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png">
@@ -1742,7 +1742,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     debug: false,
     cdn: {"js":{"app":"/ZaNot.github.io/js/app.js","parallax":"/ZaNot.github.io/js/plugins/parallax.js","rightMenu":"/ZaNot.github.io/js/plugins/rightMenu.js","rightMenus":"/ZaNot.github.io/js/plugins/rightMenus.js","sites":"/ZaNot.github.io/js/plugins/tags/sites.js","friends":"/ZaNot.github.io/js/plugins/tags/friends.js","contributors":"/ZaNot.github.io/js/plugins/tags/contributors.js","search":"/ZaNot.github.io/js/search/hexo.js"},"css":{"style":"/ZaNot.github.io/css/style.css"}},
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1662644671795),
+    lastupdate: new Date(1662682431645),
     sidebar: {
       for_page: ["blogger","category","tagcloud","donate"],
       for_post: ["toc"],
@@ -2538,6 +2538,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div id="post-body" itemprop="articleBody">
     <h2 id="YOLO-V3"><a href="#YOLO-V3" class="headerlink" title="YOLO-V3"></a>YOLO-V3</h2><ul>
 <li>YOLO-V3是比较完善的一个目标检测的框架，它经过一代一代的发展，一步步地完善，接下来介绍一些YOLO-V3在V2的基础上进行了哪些的改进，下图为我训练出来模型的检测效果<div align="center">
+<img src="https://raw.githubusercontent.com/selamangit/GithubPic/main/20220909010954747.png" class="lazyload" data-srcset="https://raw.githubusercontent.com/selamangit/GithubPic/main/20220909010954747.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" width="300" height="200" alt="检测前" align="top">
+<img src="https://raw.githubusercontent.com/selamangit/GithubPic/main/20220909010958328.png" class="lazyload" data-srcset="https://raw.githubusercontent.com/selamangit/GithubPic/main/20220909010958328.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" width="300" height="200" align="top">
 </div></li>
 </ul>
 <h4 id="先验框的更新"><a href="#先验框的更新" class="headerlink" title="先验框的更新"></a>先验框的更新</h4><p>在V2中，先验框是由K-mean聚类算法得出的5种不同尺寸的先验框，在V3中考虑到Darknet-53会输出三种尺寸的预测，因此选取先验框时应该选取的是3的倍数，最终选择了9种先验框，每种尺寸都有三种不同形状的先验框。</p>
@@ -2549,14 +2551,14 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>正负样本分配也需要遵循一些准则，那就是尽量使得正样本数和负样本数基本相等，这是为了让模型在预测时不会出现大量漏检的现象，按照我的理解就是：先验框计算出来的IOU只要大于阈值，就说明这个先验框是能检测到物体的，正样本数越多就说明这个区域内存在物体的概率更大，也就不至于出现大量漏检的现象</p>
 <h4 id="网络结构上的改进"><a href="#网络结构上的改进" class="headerlink" title="网络结构上的改进"></a>网络结构上的改进</h4><p>首先来看看它的主体网络：<strong>Darknet-53</strong>的结构图</p>
 <div align="center">
-<img src="https://raw.githubusercontent.com/selamangit/GithubPic/main/20220908213903872.png" class="lazyload" data-srcset="https://raw.githubusercontent.com/selamangit/GithubPic/main/20220908213903872.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+<img src="https://raw.githubusercontent.com/selamangit/GithubPic/main/20220909011000848.png" class="lazyload" data-srcset="https://raw.githubusercontent.com/selamangit/GithubPic/main/20220909011000848.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
 </div>
 
 <p>网络结构的改变是YOLO-V3中比较大改进的地方</p>
 <p>在YOLO-V2中使用的主体网络结构为： <strong>Darknet-19</strong>，在Darknet-19中使用卷积层来提取特征图，通过池化层来获取降低了特征维度后的特征图（具体结构请去看YOLO-V2），在经过Darknet-19全部提取完特征图之后，再将上一层池化之前的结果经过<strong>reorg</strong>之后再合并到一起，来实现特征融合，将感受野较小的特征图融合到感受野较大的特征图上面，可以使得较少的目标不至于丢失</p>
 <p>在YOLO-V3中的<strong>Darknet-53</strong>不同于V2中的网络，它除了使用卷积层来提取特征图之外，还使用了卷积层来降低特征图的维度，而不是池化层。仔细想想确实可以用卷积层来代替池化层来实现特征的降维，而且这个网络的主要成分还是残差块$\left(\text{resn}\right)$，残差块是由一层特征降维的卷积层和 $\text{2n}$ 个提取特征图的卷积层组成，但是在每 $\text{2}$ 个提取特征图的卷积层之后，都要将输出的 $\text{conv}$ 和输入的 $\text{conv}$ 相加</p>
 <div align="center">
-<img src="https://raw.githubusercontent.com/selamangit/GithubPic/main/20220908213910272.png" class="lazyload" data-srcset="https://raw.githubusercontent.com/selamangit/GithubPic/main/20220908213910272.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+<img src="https://raw.githubusercontent.com/selamangit/GithubPic/main/20220909011003829.png" class="lazyload" data-srcset="https://raw.githubusercontent.com/selamangit/GithubPic/main/20220909011003829.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
 </div>
 
 <p>在Darknet-53的卷积降维中会提取出大小不同的特征图，以输入图片大小为416×416为例，网络会将其降维为13×13、26×26、52×52等尺寸。若是像V2的做法，会将尺寸较大的特征图拆分之后融入尺寸较大的特征图中去，但想想V2的做法真的合适吗？将检测小物体（感受野较小）的特征图融合到检测大物体（感受野较大）的特征图中去，可能会将本来检测大物体的功能减弱或者检测小物体的功能减弱</p>
@@ -2598,10 +2600,10 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateModified" datetime="2022-09-08T21:39:13+08:00">
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2022-09-09T01:23:28+08:00">
   <a class='notlink'>
     <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2022年9月8日</p>
+    <p>更新于：2022年9月9日</p>
   </a>
 </div>
 
@@ -3308,7 +3310,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 </script>
 
 
-  <script type="application/ld+json">[{"@context":"http://schema.org","@type":"Organization","name":"BL's Blog","url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"http://schema.org","@type":"Person","name":"LiuBL","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","sameAs":["https://github.com/volantis-x"],"description":"BL的个人博客"},{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","name":"BL's Blog"}},{"@type":"ListItem","position":3,"item":{"@id":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/2022/09/08/yolo-v3/"}}]},{"@context":"http://schema.org","@type":"WebSite","name":"BL's Blog","url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","keywords":null,"description":"BL的个人博客","author":{"@type":"Person","name":"LiuBL","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","description":"BL的个人博客"},"publisher":{"@type":"Organization","name":"BL's Blog","url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://selamangit.github.io/ZaNot.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"http://schema.org","@type":"BlogPosting","description":"BL的个人博客","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://selamangit.github.io/ZaNot.github.io/2022/09/08/yolo-v3/"},"author":{"@type":"Person","name":"LiuBL","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/"},"publisher":{"@type":"Organization","name":"BL's Blog","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://selamangit.github.io/ZaNot.github.io/2022/09/08/yolo-v3/","wordCount":0,"datePublished":"2022-09-08T13:43:05.569Z","dateModified":"2022-09-08T13:39:13.038Z","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+  <script type="application/ld+json">[{"@context":"http://schema.org","@type":"Organization","name":"BL's Blog","url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"http://schema.org","@type":"Person","name":"LiuBL","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","sameAs":["https://github.com/volantis-x"],"description":"BL的个人博客"},{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","name":"BL's Blog"}},{"@type":"ListItem","position":3,"item":{"@id":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/2022/09/08/yolo-v3/"}}]},{"@context":"http://schema.org","@type":"WebSite","name":"BL's Blog","url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","keywords":null,"description":"BL的个人博客","author":{"@type":"Person","name":"LiuBL","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","description":"BL的个人博客"},"publisher":{"@type":"Organization","name":"BL's Blog","url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://selamangit.github.io/ZaNot.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"http://schema.org","@type":"BlogPosting","description":"BL的个人博客","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://selamangit.github.io/ZaNot.github.io/2022/09/08/yolo-v3/"},"author":{"@type":"Person","name":"LiuBL","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://selamangit.github.io/ZaNot.github.io/ZaNot.github.io/"},"publisher":{"@type":"Organization","name":"BL's Blog","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://selamangit.github.io/ZaNot.github.io/2022/09/08/yolo-v3/","wordCount":0,"datePublished":"2022-09-08T13:43:05.569Z","dateModified":"2022-09-08T17:23:28.322Z","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
 
 
 
